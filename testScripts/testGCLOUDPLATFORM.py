@@ -1,7 +1,9 @@
 import io
 import os
 import json
-jsonOutput = open("jsonoutput.json",'w')
+blockBounds = open("blockBounds.json",'w')
+blockContents = open("blockContents.json",'w')
+
 # Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
@@ -24,16 +26,47 @@ with io.open(file_name, 'rb') as image_file:
 
 image = types.Image(content=content)
 
-# Performs label detection on the image file
-response = client.text_detection(image=image)
-#labels = response.label_annotations
-print(response)
+# Performs detection on the image file
+response = client.document_text_detection(image=image)
+document = response.full_text_annotation
 texts = response.text_annotations
+blockBounds.write(str(texts))
 
 
-print('Text:')
-# print(texts)
-jsonOutput.write(str(response))
-# print('"{}"'.format(texts[0].description))
-# for text in texts:
-#     print('"{}"'.format(text.description))
+#print(document.pages.blocks)
+
+
+# def detect_document(path):
+#     """Detects document features in an image."""
+#     client = vision.ImageAnnotatorClient(credentials=credentials)
+#
+#     with io.open(path, 'rb') as image_file:
+#         content = image_file.read()
+#
+#     image = types.Image(content=content)
+#
+#     # JSON result
+#     response = client.document_text_detection(image=image)
+#     document = response.full_text_annotation
+#
+#     for page in document.pages:
+#         for block in page.blocks:
+#             block_words = []
+#             for paragraph in block.paragraphs:
+#                 block_words.extend(paragraph.words)
+#
+#             block_symbols = []
+#             for word in block_words:
+#                 block_symbols.extend(word.symbols)
+#
+#             block_text = ''
+#             for symbol in block_symbols:
+#                 block_text = block_text + symbol.text
+#
+#             print('Block Content: {}'.format(block_text))
+#             print('Block Bounds:\n {}'.format(block.bounding_box))
+#             blockContents.write(str(document))
+#             blockBounds.write(str(document))
+#
+#
+# detect_document('..\\images\\test1.jpg')
