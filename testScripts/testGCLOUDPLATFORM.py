@@ -90,49 +90,15 @@ def makeList(filepath):
 
     #print(master_list)
     with open('masterData.json', 'w') as f:
-    #file = FILE("masterData.json", "w")
         f.write(json.dumps([{"itemID": mList[0], "itemName": mList[1], "itemPrice": mList[2]} for mList in master_list], indent =4, sort_keys = False))
-    #print(json.dumps([{"itemID": mList[0], "itemName": mList[1], "itemPrice": mList[2]} for mList in master_list], indent =4, sort_keys = False))
 
-
-
-
-
-
-    #print(document.pages.blocks)
-
-
-    # def detect_document(path):
-    #     """Detects document features in an image."""
-    #     client = vision.ImageAnnotatorClient(credentials=credentials)
-    #
-    #     with io.open(path, 'rb') as image_file:
-    #         content = image_file.read()
-    #
-    #     image = types.Image(content=content)
-    #
-    #     # JSON result
-    #     response = client.document_text_detection(image=image)
-    #     document = response.full_text_annotation
-    #
-    #     for page in document.pages:
-    #         for block in page.blocks:
-    #             block_words = []
-    #             for paragraph in block.paragraphs:
-    #                 block_words.extend(paragraph.words)
-    #
-    #             block_symbols = []
-    #             for word in block_words:
-    #                 block_symbols.extend(word.symbols)
-    #
-    #             block_text = ''
-    #             for symbol in block_symbols:
-    #                 block_text = block_text + symbol.text
-    #
-    #             print('Block Content: {}'.format(block_text))
-    #             print('Block Bounds:\n {}'.format(block.bounding_box))
-    #             blockContents.write(str(document))
-    #             blockBounds.write(str(document))
-    #
-    #
-    # detect_document('..\\images\\test1.jpg')
+# list formatted as big list holding lists (or tuples) of size 2,
+# each representing an item.
+def listToText(list, name):
+    total = 0
+    s = "Here are the items that you will pay for:\n"
+    for(item in list):
+        s.append(item[0] + ", you pay " + item[1] + "\n")
+        total = item[i] + total
+    s.append("Please pay " + name + " $" + total + " on Venmo.\n")
+    return s;
