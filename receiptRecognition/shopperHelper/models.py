@@ -18,7 +18,7 @@ class user(models.Model):
     last_Name = models.CharField(max_length=100)
     # user_Type = models.CharField(max_length=100, default="STUDENT")
     email = models.EmailField(null=True, max_length=100)
-    phone = PhoneNumberField()
+    phone = models.CharField(null=False,max_length=10)
 
 class group(models.Model):
     name = models.CharField(max_length=200)
