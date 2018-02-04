@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 import time
-from .models import User, Item, Receipt
+from .models import User, Item, Receipt, Group
 from .forms import loginForm,createGroupForm, addReceiptForm
 
 from django.shortcuts import render
@@ -38,9 +38,12 @@ def login(request):
         #return render(request, 'shopperHelper/login.html')
         redirect('/shopperHelper/landing')
 
+
+
+    else:
         if request.method == 'POST':
             form = loginForm(request.POST or None)
-
+            print(form.errors)
             if form.is_valid():
                 raw_Phone_Data = int(form.cleaned_data['login_form_data'])
                 registeredStatus = None
@@ -83,7 +86,7 @@ def landing(request):
         args = {'userFirstName': userData['first_Name']}
         return render(request, 'shopperHelper/landing.html',args)
     else:
-        return redirect('/app_Transaction/')
+        return redirect('/shopperHelper/')
 
 def createGroup(request):
     if request.session.has_key('currentUser'):
@@ -91,32 +94,32 @@ def createGroup(request):
         args = {'groupForm': GroupForm}
         return render(request, 'shopperHelper/create_group.html', args)
     else:
-       return redirect('/app_Transaction/')
+       return redirect('/shopperHelper/')
 
 def addReceipt(request):
     if request.session.has_key('currentUser'):
         if request.method == 'POST':
             form = addReceiptForm(request.POST, request.FILES)
             if form.is_valid():
-                receiptID = time.time()
-                newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']))
+                receiptIDText = time.time()
+                newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']),groupAssigned=Group.objects.get(name=form.cleaned_data['group_Assigned']),receiptID=receiptIDText)
                 # m = ExampleModel.objects.get(pk=course_id)
                 # m.model_pic = form.cleaned_data['image']
                 newReceipt.save()
                 print(form.cleaned_data['image'])
                 imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
+                print("#########################################\###########################")
                 print(imageLocation)
                 image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
-                cv2.imshow("test", image)
+                cv2.imshow("imageLocation", image)
                 cv2.waitKey(0)
 
-
-                credentials = service_account.Credentials.from_service_account_file("..//..//slohacks-feb4bf79b42b.json")
+                credentials = service_account.Credentials.from_service_account_file("..//slohacks-feb4bf79b42b.json")
 
                 # Instantiates a client
                 client = vision.ImageAnnotatorClient(credentials=credentials)
 
-                file_name = os.path.join(os.path.dirname(__file__), "media/receipt_images/{}")
+                file_name =  "media/receipt_images/{}".format(form.cleaned_data['image'])
 
                 with io.open(file_name, 'rb') as image_file:
                     content = image_file.read()
@@ -126,9 +129,11 @@ def addReceipt(request):
                 response = client.text_detection(image=image)
                 document = response.full_text_annotation
                 texts = response.text_annotations
-                blockBounds.write(str(response))
+                # blockBounds.write(str(response))
 
                 t = response.text_annotations[0].description
+
+                print (t)
 
                 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
                 i = r.end(0)
@@ -168,8 +173,21 @@ def addReceipt(request):
                     master_list.append((item_nos[i], item_names[i], item_prices[i]))
 
                 for val in master_list:
-                    item = Item(val[0], val[1], val[2])
-                    item.save()
+                    print(val)
+                    itemT = Item(number = val[0], name = val[1], price = val[2])
+                    itemT.save()
+                    print(newReceipt)
+                    newReceipt.items.add(itemT)
+                    newReceipt.save()
+                    # b = Item.objects.filter(number=val[0], name=val[1], price=val[2]).exists()
+                    # if b == False:
+                    #     print(val)
+                    #     itemT = Item(number = val[0], name = val[1], price = val[2])
+                    #     itemT.save()
+                    #     newReceipt(item=itemT)
+                    #     newReceipt.save()
+
+
 
                 return HttpResponse('image upload success')
             else:
@@ -180,10 +198,19 @@ def addReceipt(request):
             args = {'receiptForm': addReceiptFormData, 'userFirstName': userData['first_Name']}
             return render(request, 'shopperHelper/addReceipt.html', args)
     else:
-        return redirect('/app_Transaction')
+        return redirect('/shopperHelper')
 
 def register(request):
     if request.session.has_key('currentUser'):
         return render(request, 'shopperHelper/register.html')
     else:
-       return redirect('/app_Transaction/')
+       return redirect('/shopperHelper/')
+
+def selectItems(request):
+    if request.session.has_key('currentUser'):
+        indForm = CreateIndForm()
+        args = {'indForm': indForm}
+        return render(request, 'shopperHelper/create_group.html', args)
+
+    else:
+        return redirect('/shopperHelper/')

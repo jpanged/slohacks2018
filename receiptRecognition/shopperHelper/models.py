@@ -7,11 +7,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Item(models.Model):
     number = models.CharField(null=True, max_length=200)
     name = models.CharField(null=True, max_length=200)
-    price = models.IntegerField(null=True,)
+    price = models.CharField(blank=True, null=True,max_length=200)
     displayName = models.CharField(null=True, max_length=200)
 
     def __str__(self):
-        return self.displayName
+        return self.name
 
 class User(models.Model):
     first_Name = models.CharField(max_length=100)
