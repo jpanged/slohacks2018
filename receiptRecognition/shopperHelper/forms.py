@@ -1,16 +1,16 @@
 from django import forms
 from django.db import models
 
-from .models import user, item, group
+from .models import User, Item, Group
 
 
 class loginForm(forms.ModelForm):
     login_form_data = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'loginUserInput'}))
 
     class Meta:
-        model = user
+        model = User
         fields = ('phone',)
-
+'''
 class createGroupForm(forms.ModelForm):
 
     ALL_MEMBERS = sorted(list(user.objects.all()))
@@ -22,3 +22,4 @@ class createGroupForm(forms.ModelForm):
         model = group
         fields = ('name',
                   'members',)
+'''

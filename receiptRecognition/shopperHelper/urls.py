@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^landing/$',      views.landing,      name='landing'),
     url(r'^create_group/$',      views.createGroup,      name='createGroup'),
     url(r'^addReceipt/$',      views.addReceipt,      name='addReceipt'),
+    url(r'^register/$',      views.register,      name='register'),
 ]
