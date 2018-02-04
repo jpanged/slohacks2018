@@ -52,10 +52,9 @@ for response in response.text_annotations:
     p4 = (x4, y4)
 
     c1 = (p1, p2, p3, p4)
-    print(index)
     testTuple = (response.description, c1)
-    tupList[index] = testTuple
-    index++
+    tupList.append(testTuple)
+    index += 1
 
 print(tupList)
 # print(response.text_annotations[0].description)
