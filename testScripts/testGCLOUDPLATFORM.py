@@ -52,10 +52,10 @@ for index, response in enumerate(response.text_annotations):
 
     c1 = (p1, p2, p3, p4)
 
-    testTuple = (response.text_annotations[index].description, c1)
+    testTuple = (response.description, c1)
     tupList[index] = testTuple
 
-print(testTuple)
+print(tupList)
 # print(response.text_annotations[0].description)
 
 #print(document.pages.blocks)
