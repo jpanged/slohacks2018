@@ -10,3 +10,6 @@ class loginForm(forms.ModelForm):
     class Meta:
         model = user
         fields = ('phone',)
+
+# class createGroupForm(forms.ModelForm):
+#
