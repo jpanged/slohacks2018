@@ -1,6 +1,8 @@
 import io
 import os
 import json
+import re
+
 blockBounds = open("blockBounds.json",'w')
 blockContents = open("blockContents.json",'w')
 
@@ -10,7 +12,7 @@ from google.cloud.vision import types
 
 from google.oauth2 import service_account
 
-credentials = service_account.Credentials.from_service_account_file("C:\\utilities\\slohacks-feb4bf79b42b.json")
+credentials = service_account.Credentials.from_service_account_file("..//slohacks-feb4bf79b42b.json")
 
 # Instantiates a client
 client = vision.ImageAnnotatorClient(credentials=credentials)
@@ -34,6 +36,62 @@ texts = response.text_annotations
 blockBounds.write(str(response))
 
 print(response.text_annotations[0].description)
+
+#Full string of data
+t = response.text_annotations[0].description
+
+#Removes everything before phone #
+r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
+i = r.end(0)
+
+t = t[i+1:]
+
+#Removes everything after subtotal
+r = re.search('\n[S]*[U]*[B]*[T]*[O]*[T]*[A]*[L]*\n', t)
+i = r.start(0)
+
+t = t[:i]
+
+# Splitting data into 3 components
+#Item # and Item names
+r = re.findall('\n[0-9]+\s.+', t) # might need to remove \n for other OS in deployment
+
+no_and_names = []
+for p in r:
+    no_and_names.append(p)
+
+#print (no_and_names)
+
+#Item price
+item_prices = []
+r = re.findall('[0-9]+\.[0-9]+', t)
+for p in r:
+    item_prices.append(p)
+
+#print (prices)
+
+item_nos = []
+item_names = []
+for element in no_and_names:
+    i = element.find(' ')
+    item_nos.append(element[1:i])
+    item_names.append(element[i + 1:])
+
+print(item_nos)
+print(item_names)
+print(item_prices)
+
+master_list = []
+min_length = min([len(item_nos), len(item_names), len(item_prices)])
+for i in range(0, min_length):
+    master_list.append((item_nos[i], item_names[i], item_prices[i]))
+print(master_list)
+
+
+
+
+
+
 
 #print(document.pages.blocks)
 
