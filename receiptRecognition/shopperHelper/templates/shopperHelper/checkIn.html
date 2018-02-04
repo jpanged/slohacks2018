@@ -1,0 +1,78 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>RETURN EQUIPMENT</title>
+    {% endblock %}
+    <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+  </head>
+  <body>
+    {% block body %}
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Return Equipment</h1>
+        <p class="lead">Hello {{ userFirstName }}, do you have equipment checked out? If you want to retun equipment, find it in the list below, and click on how many items you want to return.</p>
+      </div>
+      <!-- <a href="{% url 'another_Action' %}" class="btn btn-outline-success btn-lg btn-block" role="button">Return Selected Equipment</a> -->
+      <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Return Selected Equipment</button>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Part</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">ID</th>
+            <th scope="col">Quantity to return</th>
+          </tr>
+        </thead>
+        <form>
+          {% csrf_token %}
+        <tbody class="result" id="result">
+          {% for part,quantity,ID in registered_Parts_List %}
+          <tr>
+          <th scope="row">{{ part }}</th>
+          <td scope="row">{{ quantity }}</td>
+          <td scope="row">{{ ID }}</td>
+          <td scope="row"><input type="number" class="form-control mb-1 mr-sm-1" id="quantity_to_remove_{{ part }}" max="{{ quantity }}" min=0 value="0" placeholder="MAX: {{ quantity }}" onchange="var _part = '{{ part }}';var _quantity = this.value; var _id = '{{ ID }}';addPartToOrder(_part, _quantity,_id)"></td>
+        </tr>
+          {% endfor %}
+        </tbody>
+      </form>
+      </table>
+    </div>
+    <script type="text/javascript">
+    "use strict";
+    var outerObj = {};
+    function addPartToOrder(_partName,_partQty,_partID)
+    {
+      var obj = {
+        partName: _partName,
+        partQty: _partQty,
+        partID: _partID
+      };
+      console.log(obj);
+      console.log(outerObj)
+      outerObj[_partName] = obj;
+    };
+
+
+
+    function sendPostData() {
+      // event.preventDefault();
+      var partData = JSON.stringify(outerObj);
+      console.log(partData);
+      $.post("", {
+        csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        partData
+      });
+    };
+    var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
+    </script>
+    {% endblock %}
+  </body>
+</html>

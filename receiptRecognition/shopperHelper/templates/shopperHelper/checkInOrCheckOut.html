@@ -1,0 +1,53 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!--Button code adapted from:
+https://getbootstrap.com/docs/4.0/components/buttons/
+https://www.w3schools.com/bootstrap/bootstrap_buttons.asp
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% block head %}
+  <title>WELCOME PAGE</title>
+  {% endblock %}
+  <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+</head>
+
+<body>
+  {% block body %}
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Welcome {{ userFirstName }}</h1>
+      <p class="lead">What would you like to do?</p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+          <h2>Equipment Checkin</h2>
+          <p>
+              Do you have equipment checked out and need to return it?
+          </p>
+          <p><a href="{% url 'checkIn' %}" class="btn btn-outline-primary">Check in Equipment</a></p>
+      </div>
+          <div class="col-md-4">
+              <h2>Equipment Checkout</h2>
+              <p>
+                  Need to checkout equipment for a lab or project?
+              </p>
+              <p><a href="{% url 'checkOut' %}" class="btn btn-outline-primary">Check out Equipment</a></p>
+          </div>
+  </div>
+
+    <!-- <a href="{% url 'checkIn' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Check In</a>
+    <a href="{% url 'checkOut' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Check Out</a> -->
+  </div>
+  {% endblock %}
+</body>
+
+</html>

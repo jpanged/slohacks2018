@@ -1,21 +1,21 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
-'''
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+
+class item(models.Model):
+    number = models.CharField(null=True, max_length=200)
+    name = models.CharField(null=True, max_length=200)
+    price = models.IntegerField(null=True, max_length=200)
+    displayName = models.CharField(null=True, max_length=200)
 
     def __str__(self):
-        return self.question_text
+        return displayName
 
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
-'''
+class user(models.Model):
+    first_Name = models.CharField(max_length=100)
+    last_Name = models.CharField(max_length=100)
+    user_Type = models.CharField(max_length=100, default="STUDENT")
+    email = models.EmailField(null=True, max_length=100)
+    phone = PhoneNumberField()

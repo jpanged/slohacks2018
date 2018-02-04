@@ -1,0 +1,30 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>Registered Users Page</title>
+    {% endblock %}
+    <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+  </head>
+  <body>
+    {% block body %}
+    <br>
+    <div class="container">
+      <h1>Registered Users</h1>
+      <h6>Number of users: {{ total_Users }}</h6>
+      <p>Below is a list of registered users:</p>
+      <ul>
+        {% for user in registered_Users_List %}
+        <p>{{ user }}</p>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endblock %}
+  </body>
+</html>

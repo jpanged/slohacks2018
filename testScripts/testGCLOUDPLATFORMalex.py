@@ -35,7 +35,38 @@ document = response.full_text_annotation
 texts = response.text_annotations
 blockBounds.write(str(response))
 
-print(response.text_annotations[0].description)
+tupList = []
+tupList1 = []
+index = 0;
+
+for response in response.text_annotations:
+    x1 = response.bounding_poly.vertices[0].x
+    y1 = response.bounding_poly.vertices[0].y
+    x2 = response.bounding_poly.vertices[1].x
+    y2 = response.bounding_poly.vertices[1].y
+    x3 = response.bounding_poly.vertices[2].x
+    y3 = response.bounding_poly.vertices[2].y
+    x4 = response.bounding_poly.vertices[3].x
+    y4 = response.bounding_poly.vertices[3].y
+
+    p1 = (x1, y1)
+    p2 = (x2, y2)
+    p3 = (x3, y3)
+    p4 = (x4, y4)
+
+    c1 = (p1, p2, p3, p4)
+    testTuple = (response.description, c1)
+    tupList.append(testTuple)
+    index += 1
+
+def getKey(item):
+    return item[1][0][1]
+
+tupList1 = sorted(tupList, key=getKey)
+
+
+
+# print(response.text_annotations[0].description)
 
 #Full string of data
 t = response.text_annotations[0].description

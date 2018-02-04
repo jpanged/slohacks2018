@@ -1,0 +1,26 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>Transaction Summary Page</title>
+    {% endblock %}
+    <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+  </head>
+  <body>
+    {% block body %}
+    <br>
+    <div class="container">
+      <h1>Transaction Summary Page</h1>
+      <h6>A PDF of this transaction has been sent to your email</h6>
+      <h6>A PDF of this transaction has been sent to your phone</h6>
+      <a href="{% url 'checkPolyCardData' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Finish Transaction</a>
+    </div>
+    {% endblock %}
+  </body>
+</html>
