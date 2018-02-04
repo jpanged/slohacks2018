@@ -28,22 +28,35 @@
       {% csrf_token %}
       <div class="form-row">
         <div class="form-group col-md-7">
-          <label for="username">Group Name</label> {{ createGroupForm.group_name }}
+          <label for="username">Group Name</label> {{ groupForm.group_name }}
         </div>
         <div class="form-group col-md-5">
-          <label for="username">Add Member</label> {{ createGroupForm.group_members }}
+          <label for="username">Add Member</label> {{ groupForm.group_members }}
         </div>
-        <!-- Part: {{ checkOutForm.part }} Quantity: {{ checkOutForm.quantity }} ID: {{ checkOutForm.id_Number }} -->
       </div>
+
       <div class="form-row">
+
+        <div class="form-group col-md-6">
           <label for="">&nbsp</label>
-          <button id="submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
+          <button id="addItemButton" class="btn btn-outline-primary btn-large btn-block" onclick="addPartToOrder()" type="submit">Add item</button>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">&nbsp</label>
+          <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
+        </div>
       </div>
+
+      <!-- <div class="form-row">
+          <label for="">&nbsp</label>
+          <button id="addItemButton submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="addPartToOrder()" type="submit">Add</button>
+      </div> -->
     </form>
     <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col">Phone Number</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody class="result" id="result">
@@ -56,7 +69,8 @@
 
   <script type="text/javascript">
     "use strict";
-    var outerObj = {};
+    // var outerObj = {};
+    var outerObj = [];
     var successMessage = document.getElementById("success-checkout");
 
     function pageLoadScripts() {
@@ -67,23 +81,23 @@
       // Stop the form from submitting since we’re handling that with AJAX.
       event.preventDefault();
 
-      var _partName = document.getElementById("partName").value;
-      var _partQty = document.getElementById("partQty").value;
-      var _partID = document.getElementById("partID").value;
-      var obj = {
-        partName: _partName,
-        partQty: _partQty,
-        partID: _partID
-      };
-      console.log(outerObj)
-      var ElementExist = document.getElementById(obj.partName + '_partName');
-      console.log(ElementExist);
-      if (ElementExist == null) {
-        outerObj[_partName] = obj;
-        $('#result').append('<tr id="' + obj.partName + 'row"><th scope="row" id="' + obj.partName + '_partName">' + obj.partName + '</th><td id="' + obj.partName + '_qty">' + obj.partQty + '</td><td id="' + obj.partName + '_IDNumber">' + obj.partID +
-          '</td><td id="' + obj.partName + '_Delete"><button id="deleteEntryButton" class="btn btn-danger" onclick="deleteEntry(this)">Delete</button></td></tr>');
-        // $('#result').append($('ul.list').append('<li>' + obj[1]["Value"] + ' , ' + obj[2]["Value"] + '</li>'));
-        console.log(obj);
+      // var _group_name = document.getElementById("group_name").value;
+      var _member_name = document.getElementById("member_name").value;
+      console.log(_member_name);
+      // var _partID = document.getElementById("partID").value;
+      // var obj = {
+      //   group_name: _group_name,
+      //   member_name: _member_name
+      //   // partID: _partID
+      // };
+      // console.log(outerObj)
+      var ElementExist = document.getElementById('member_name');
+      // console.log(ElementExist);
+      if (ElementExist != null) {
+        console.log("TEST");
+        outerObj.push(_member_name);
+        $('#result').append('<tr id="' + _member_name + 'row"><th scope="row" id="' + _member_name + '">' + _member_name + '</th><td id="' + _member_name + '_Delete"><button id="deleteEntryButton" class="btn btn-danger" onclick="deleteEntry(this)">Delete</button></td></tr>');
+        console.log(outerObj);
       } else {
         var totalQty = document.getElementById(obj.partName + '_qty').textContent;
         document.getElementById(obj.partName + '_qty').innerHTML = parseInt(totalQty) + parseInt(obj.partQty);

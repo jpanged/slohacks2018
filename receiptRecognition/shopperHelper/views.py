@@ -6,12 +6,14 @@ from django.urls import reverse
 from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import User, Item
-from .forms import loginForm #,createGroupForm
+from .models import User, Item, Receipt
+from .forms import loginForm,createGroupForm, addReceiptForm
 
 from django.shortcuts import render
 #mysite = receiptRecognition
 #polls = shopperHelper
+
+import cv2
 
 def index(request):
     return HttpResponse("Hello World!")
@@ -61,12 +63,34 @@ def landing(request):
     return render(request, 'shopperHelper/landing.html')
 
 def createGroup(request):
-    createGroupForm = createGroupForm()
-    args = {'createGroupForm': createGroupForm}
+    GroupForm = createGroupForm()
+    args = {'groupForm': GroupForm}
     return render(request, 'shopperHelper/create_group.html', args)
 
 def addReceipt(request):
-    return render(request, 'shopperHelper/addReceipt.html')
+
+    if request.method == 'POST':
+        form = addReceiptForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            newReceipt = Receipt(image=form.cleaned_data['image'])
+            # m = ExampleModel.objects.get(pk=course_id)
+            # m.model_pic = form.cleaned_data['image']
+            newReceipt.save()
+            print(form.cleaned_data['image'])
+            imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
+            print(imageLocation)
+            image = cv2.imread("receipt_images/{}".format(form.cleaned_data['image']))
+            cv2.imshow("test", image)
+            cv2.waitKey(0)
+
+            return HttpResponse('image upload success')
+        else:
+            return HttpResponse(':(')
+    else:
+        addReceiptFormData = addReceiptForm()
+        args = {'receiptForm': addReceiptFormData}
+        return render(request, 'shopperHelper/addReceipt.html', args)
 
 def register(request):
     return render(request, 'shopperHelper/register.html')
