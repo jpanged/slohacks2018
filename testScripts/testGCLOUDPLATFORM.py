@@ -40,8 +40,6 @@ print(response.text_annotations[0].description)
 #Full string of data
 t = response.text_annotations[0].description
 
-print (t)
-
 #Removes everything before phone #
 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
 i = r.end(0)
@@ -66,24 +64,20 @@ for p in r:
 item_prices = []
 r = re.findall('[0-9]+\.[0-9]+', t)
 for p in r:
-    item_prices.append(p)
-
-print (item_prices)
+    item_prices.append(float(p))
 
 item_nos = []
 item_names = []
 for element in no_and_names:
     i = element.find(' ')
-    item_nos.append(element[1:i])
+    item_nos.append(int(element[1:i]))
     item_names.append(element[i + 1:])
 
-#print(item_nos)
-#print(item_names)
-print(item_prices)
-item_nos.extend(['0', '0', '0'])
+item_nos.extend([float('0'), float('0'), float('0')])
 item_names.extend(['SUBTOTAL', 'TAX', 'TOTAL'])
-print (type(item_prices[-2]))
-#item_prices.append(sum(float(item_prices[-2]), float(item_prices[-1])))
+subtotal = float(item_prices[-2])
+tax = float(item_prices[-1])
+item_prices.append(sum([subtotal,tax]))
 
 master_list = []
 min_length = min([len(item_nos), len(item_names), len(item_prices)])
