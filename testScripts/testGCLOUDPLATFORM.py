@@ -33,7 +33,23 @@ document = response.full_text_annotation
 texts = response.text_annotations
 blockBounds.write(str(response))
 
-testTuple = (response.text_annotations[1].description,response.text_annotations[1].bounding_poly.vertices[0].x)
+x1 = response.text_annotations[1].bounding_poly.vertices[0].x
+y1 = response.text_annotations[1].bounding_poly.vertices[0].y
+x2 = response.text_annotations[1].bounding_poly.vertices[1].x
+y2 = response.text_annotations[1].bounding_poly.vertices[1].y
+x3 = response.text_annotations[1].bounding_poly.vertices[2].x
+y3 = response.text_annotations[1].bounding_poly.vertices[2].y
+x4 = response.text_annotations[1].bounding_poly.vertices[3].x
+y4 = response.text_annotations[1].bounding_poly.vertices[3].y
+
+p1 = (x1, y1)
+p2 = (x2, y2)
+p3 = (x3, y3)
+p4 = (x4, y4)
+
+c1 = (p1, p2, p3, p4)
+
+testTuple = (response.text_annotations[1].description, c1)
 
 print(testTuple)
 # print(response.text_annotations[0].description)
