@@ -11,7 +11,7 @@ https://www.w3schools.com/bootstrap/bootstrap_buttons.asp
 
 <head>
   {% block head %}
-  <title>WELCOME PAGE</title>
+  <title>LANDING PAGE</title>
   {% endblock %}
   <!--Needed for importing static files
     {% load static %}
@@ -29,23 +29,21 @@ https://www.w3schools.com/bootstrap/bootstrap_buttons.asp
 
     <div class="row">
       <div class="col-md-4">
-          <h2>Equipment Checkin</h2>
+          <h2>Add a receipt</h2>
           <p>
-              Do you have equipment checked out and need to return it?
+              Add a receipt and assign it to a group
           </p>
-          <p><a href="{% url 'checkIn' %}" class="btn btn-outline-primary">Check in Equipment</a></p>
+          <p><a href="{% url 'add_receipt' %}" class="btn btn-outline-primary">Add a Receipt</a></p>
       </div>
           <div class="col-md-4">
-              <h2>Equipment Checkout</h2>
+              <h2>Create a group</h2>
               <p>
-                  Need to checkout equipment for a lab or project?
+                  Create a group to assign receipts to
               </p>
-              <p><a href="{% url 'checkOut' %}" class="btn btn-outline-primary">Check out Equipment</a></p>
+              <p><a href="{% url 'create_group' %}" class="btn btn-outline-primary">Create a Group</a></p>
           </div>
   </div>
 
-    <!-- <a href="{% url 'checkIn' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Check In</a>
-    <a href="{% url 'checkOut' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Check Out</a> -->
   </div>
   {% endblock %}
 </body>
