@@ -34,6 +34,7 @@ class Receipt(models.Model):
     items = models.ManyToManyField(Item)
     groupAssigned = models.ForeignKey('group', null=True, related_name='groupAssigned', on_delete=models.CASCADE, blank=True)
     owner = models.ForeignKey('user', null=True, related_name='owner', on_delete=models.CASCADE, blank=True)
+    receiptID = models.CharField(blank=True,max_length=200)
 
 class ItemOnReceipt(models.Model):
     item = models.ForeignKey('item', null=True, related_name='item', on_delete=models.CASCADE)
