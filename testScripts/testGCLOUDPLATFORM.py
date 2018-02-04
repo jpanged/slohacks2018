@@ -10,7 +10,7 @@ from google.cloud.vision import types
 
 from google.oauth2 import service_account
 
-credentials = service_account.Credentials.from_service_account_file("C:\\utilities\\slohacks-feb4bf79b42b.json")
+credentials = service_account.Credentials.from_service_account_file("..//slohacks-feb4bf79b42b.json")
 
 # Instantiates a client
 client = vision.ImageAnnotatorClient(credentials=credentials)
@@ -56,7 +56,8 @@ for response in response.text_annotations:
     tupList.append(testTuple)
     index += 1
 
-print(tupList)
+
+
 # print(response.text_annotations[0].description)
 
 #print(document.pages.blocks)
