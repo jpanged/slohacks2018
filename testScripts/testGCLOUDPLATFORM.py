@@ -2,6 +2,7 @@ import io
 import os
 import json
 import re
+#import file
 
 blockBounds = open("blockBounds.json",'w')
 blockContents = open("blockContents.json",'w')
@@ -35,10 +36,12 @@ document = response.full_text_annotation
 texts = response.text_annotations
 blockBounds.write(str(response))
 
-print(response.text_annotations[0].description)
+#print(response.text_annotations[0].description)
 
 #Full string of data
 t = response.text_annotations[0].description
+
+#print (t)
 
 #Removes everything before phone #
 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
@@ -64,27 +67,35 @@ for p in r:
 item_prices = []
 r = re.findall('[0-9]+\.[0-9]+', t)
 for p in r:
-    item_prices.append(float(p))
+    item_prices.append(p)
+
+#print (item_prices)
 
 item_nos = []
 item_names = []
 for element in no_and_names:
     i = element.find(' ')
-    item_nos.append(int(element[1:i]))
+    item_nos.append(element[1:i])
     item_names.append(element[i + 1:])
 
-item_nos.extend([float('0'), float('0'), float('0')])
+#print(item_nos)
+#print(item_names)
+#print(item_prices)
+item_nos.extend(['0', '0', '0'])
 item_names.extend(['SUBTOTAL', 'TAX', 'TOTAL'])
-subtotal = float(item_prices[-2])
-tax = float(item_prices[-1])
-item_prices.append(sum([subtotal,tax]))
+#print (type(item_prices[-2]))
+#item_prices.append(sum(float(item_prices[-2]), float(item_prices[-1])))
 
 master_list = []
 min_length = min([len(item_nos), len(item_names), len(item_prices)])
 for i in range(0, min_length):
     master_list.append((item_nos[i], item_names[i], item_prices[i]))
-print(master_list)
 
+#print(master_list)
+with open('masterData.json', 'w') as f:
+#file = FILE("masterData.json", "w")
+    f.write(json.dumps([{"itemID": mList[0], "itemName": mList[1], "itemPrice": mList[2]} for mList in master_list], indent =4, sort_keys = False))
+#print(json.dumps([{"itemID": mList[0], "itemName": mList[1], "itemPrice": mList[2]} for mList in master_list], indent =4, sort_keys = False))
 
 
 

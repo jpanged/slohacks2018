@@ -1,0 +1,37 @@
+[
+    {
+        "itemID": "1",
+        "itemName": "2% MILK",
+        "itemPrice": "4.69"
+    },
+    {
+        "itemID": "44004",
+        "itemName": "KS TORTILLA",
+        "itemPrice": "3.49"
+    },
+    {
+        "itemID": "287783",
+        "itemName": "BEEF BASE",
+        "itemPrice": "6.39"
+    },
+    {
+        "itemID": "30669",
+        "itemName": "BANANAS",
+        "itemPrice": "1.39"
+    },
+    {
+        "itemID": "18600",
+        "itemName": "CLEMENTINES",
+        "itemPrice": "8.49"
+    },
+    {
+        "itemID": "0",
+        "itemName": "SUBTOTAL",
+        "itemPrice": "24.45"
+    },
+    {
+        "itemID": "0",
+        "itemName": "TAX",
+        "itemPrice": "0.00"
+    }
+]
