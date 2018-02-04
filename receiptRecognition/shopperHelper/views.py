@@ -17,16 +17,22 @@ def index(request):
     return HttpResponse("Hello World!")
 
 def login(request):
-    if request.session.has_key('polyCardData'):
+    if request.session.has_key('currentUser'):
         return render(request, 'shopperHelper/login.html')
+        #redirect('/shopperHelper/landing')
     else:
         if request.method == 'POST':
-            loginFormData = studentLoginForm(request.POST)
-            if loginForms.is_valid():
+            loginFormData = loginForm(request.POST)
+            if loginFormData.is_valid():
+                rawLoginData = loginFormData.cleaned_data[login_form_data]
+                
+                #loginFormData.save()
                 return render(request, 'shopperHelper/login.html')
+            else:
+                return HttpResponseRedirect('/shopperHelper/login')
         else:
-            loginFormInput = loginForm()
-            args = {'loginForm': loginFormInput}
+            loginFormData = loginForm()
+            args = {'loginForm': loginForm}
             return render(request, 'shopperHelper/login.html', args)
 
 def landing(request):
