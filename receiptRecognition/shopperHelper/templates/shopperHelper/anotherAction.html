@@ -1,0 +1,31 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!--Button code adapted from:
+https://getbootstrap.com/docs/4.0/components/buttons/
+https://www.w3schools.com/bootstrap/bootstrap_buttons.asp
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>Another Action Page</title>
+    {% endblock %}
+    <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+  </head>
+  <body>
+    {% block body %}
+    <br>
+    <div class="container">
+      <h1>Another Action Page</h1>
+      <p> Would you like to perform another? </p>
+      <a href="{% url 'checkIn_Or_CheckOut' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Yes</a>
+      <a href="{% url 'transaction_Summary' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">No</a>
+    </div>
+    {% endblock %}
+  </body>
+</html>

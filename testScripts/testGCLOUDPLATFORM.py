@@ -33,7 +33,10 @@ document = response.full_text_annotation
 texts = response.text_annotations
 blockBounds.write(str(response))
 
-print(response.text_annotations[0].description)
+testTuple = (response.text_annotations[1].description,response.text_annotations[1].bounding_poly.vertices[0].x)
+
+print(testTuple)
+# print(response.text_annotations[0].description)
 
 #print(document.pages.blocks)
 

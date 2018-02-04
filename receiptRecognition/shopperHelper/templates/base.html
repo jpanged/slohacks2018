@@ -1,0 +1,78 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+ <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  {% block head %}
+  <title>Base</title>
+  {% endblock %}
+  <!--Needed for importing static files-->
+  {% load static %}
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}" />
+  <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+</head>
+
+<body>
+
+  <!--Sample navbar code taken from Bootstrap example-->
+  {% with url_name=request.resolver_match.url_name %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand mb-0 h1" href="{% url 'studentLogin' %}">SPL DCS</a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if url_name == 'studentLogin' or url_name == 'checkIn_Or_CheckOut' %}active{% endif %}" href="{% url 'studentLogin' %}">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if url_name == 'parts' %}active{% endif %}" href="{% url 'parts' %}">Parts</a>
+        </li>
+        {% if request.session.polyCardData != None %}
+        <li class="nav-item">
+          <a class="nav-link {% if url_name == 'checkOut' %}active{% endif %}" href="{% url 'checkOut' %}">Checkout Equipment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if url_name == 'checkIn' %}active{% endif %}" href="{% url 'checkIn' %}">Return Equipment</a>
+        </li>
+        {% endif %}
+      </ul> -->
+      <!-- <ul class="nav navbar-nav navbar-right">
+
+
+        <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  LOGIN ACTIONS
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  {% if request.session.polyCardData == None %}
+                  <a class="dropdown-item" href="{% url 'studentLogin' %}">STUDENT LOGIN</a>
+                  <a class="dropdown-item" href="{% url 'studentLogin' %}">STAFF LOGIN</a>
+                  {% else %}
+                  <a class="dropdown-item" href="{% url 'studentLogout' %}">STUDENT LOGOUT</a>
+                  <a class="dropdown-item" href="#">STAFF LOGOUT</a>
+                  {% endif %}
+
+                </div>
+              </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'studentLogin' %}">STUDENT LOGIN</a>
+        </li>
+      </ul> -->
+    </div>
+  </nav>
+  {% endwith %} {% block body %}
+  <h1>Base</h1> {% endblock %}
+</body>
+
+</html>

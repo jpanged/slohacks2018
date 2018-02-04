@@ -1,0 +1,56 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% block head %}
+  <title>STUDENT LOGIN</title>
+  {% endblock %}
+  <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+</head>
+{% block body %}
+<div class="container">
+
+
+  <body onload="javascript:document.getElementById('polycardPasswordInput').focus();">
+  {%if request.GET.logoutFlag == "True" %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <h4 class="alert-heading">Logout Successful</h4>
+      <p>You have been successfully logged out of the SPL DCS system</p>
+      <hr>
+      <p class="mb-0">If you would like to login again, swipe your polycard below.</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    {% endif %}
+
+    <div class="jumbotron">
+      <h1>Welcome to the SPL Digital CheckOut System <strong>(SPL DCS)</strong></h1>
+      <p class="lead">This page is for <strong>STUDENT</strong> login. If you are staff, please click the button below</p> <a href="#" class="btn btn-sm btn-outline-dark">Staff Login</a>
+      </form>
+    </div>
+    <!--CheckPolyCard form-->
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="formGroupExampleInput">Swipe PolyCard</label> {{ checkPolyCardForm.polyCard_Data }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" role="button">Submit</a>
+      </form>
+    </div>
+    {% endblock %}
+  </body>
+</html>
+
+<!--Error message to be implemented later saying that PolyCard is not valid
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+-->
