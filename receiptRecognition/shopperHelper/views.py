@@ -7,7 +7,7 @@ from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import user, item
-from .forms import loginForm
+from .forms import loginForm, createGroupForm
 
 from django.shortcuts import render
 #mysite = receiptRecognition
@@ -25,7 +25,7 @@ def login(request):
             loginFormData = loginForm(request.POST)
             if loginFormData.is_valid():
                 rawLoginData = loginFormData.cleaned_data[login_form_data]
-                
+
                 #loginFormData.save()
                 return render(request, 'shopperHelper/login.html')
             else:
@@ -39,7 +39,9 @@ def landing(request):
     return render(request, 'shopperHelper/landing.html')
 
 def createGroup(request):
-    return render(request, 'shopperHelper/create_group.html')
+    createGroupForm = createGroupForm()
+    args = {'createGroupForm': createGroupForm}
+    return render(request, 'shopperHelper/create_group.html', args)
 
 def addReceipt(request):
     return render(request, 'shopperHelper/addReceipt.html')

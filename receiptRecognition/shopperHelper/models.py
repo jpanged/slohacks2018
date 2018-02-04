@@ -11,7 +11,7 @@ class item(models.Model):
     displayName = models.CharField(null=True, max_length=200)
 
     def __str__(self):
-        return displayName
+        return self.displayName
 
 class user(models.Model):
     first_Name = models.CharField(max_length=100)
@@ -19,6 +19,9 @@ class user(models.Model):
     # user_Type = models.CharField(max_length=100, default="STUDENT")
     email = models.EmailField(null=True, max_length=100)
     phone = models.CharField(null=False,max_length=10)
+
+    def __str__(self):
+        return "{} {}".format(self.first_Name, self.last_Name)
 
 class group(models.Model):
     name = models.CharField(max_length=200)
