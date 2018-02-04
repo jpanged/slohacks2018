@@ -8,10 +8,6 @@
   {% block head %}
   <title>CREATE GROUP</title>
   {% endblock %}
-  <!--Needed for importing static files
-    {% load static %}
-     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
-    -->
 </head>
 
 
@@ -31,29 +27,21 @@
     <form class="partSelect">
       {% csrf_token %}
       <div class="form-row">
-        <div class="form-group col-md-10">
-          <label for="username">Part</label> {{ checkOutForm.part }}
+        <div class="form-group col-md-7">
+          <label for="username">Group Name</label> {{ createGroupForm.name }}
         </div>
-        <div class="form-group col-md-2">
-          <label for="username">Quantity</label> {{ checkOutForm.quantity }}
+        <div class="form-group col-md-5">
+          <label for="username">Add Member</label> {{ createGroupForm.members }}
         </div>
         <!-- Part: {{ checkOutForm.part }} Quantity: {{ checkOutForm.quantity }} ID: {{ checkOutForm.id_Number }} -->
       </div>
       <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="">ID Number</label> {{ checkOutForm.id_Number }}
-        </div>
         <div class="form-group col-md-3">
           <label for="">&nbsp</label>
-          <button id="addItemButton" class="btn btn-outline-primary btn-large btn-block" onclick="addPartToOrder()" type="submit">Add item</button>
-        </div>
-        <div class="form-group col-md-3">
-          <label for="">&nbsp</label>
-          <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
+          <button id="submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
         </div>
       </div>
     </form>
-    <!-- <a href="{% url 'another_Action' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Finish Checking Out</a> -->
     <table class="table table-hover">
       <thead>
         <tr>
