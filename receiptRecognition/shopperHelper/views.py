@@ -63,34 +63,39 @@ def landing(request):
     return render(request, 'shopperHelper/landing.html')
 
 def createGroup(request):
-    GroupForm = createGroupForm()
-    args = {'groupForm': GroupForm}
-    return render(request, 'shopperHelper/create_group.html', args)
+    if request.session.has_key('currentUser'):
+
+    else:
+        GroupForm = createGroupForm()
+        args = {'groupForm': GroupForm}
+        return render(request, 'shopperHelper/create_group.html', args)
 
 def addReceipt(request):
-
-    if request.method == 'POST':
-        form = addReceiptForm(request.POST, request.FILES)
-        if form.is_valid():
-
-            newReceipt = Receipt(image=form.cleaned_data['image'])
-            # m = ExampleModel.objects.get(pk=course_id)
-            # m.model_pic = form.cleaned_data['image']
-            newReceipt.save()
-            print(form.cleaned_data['image'])
-            imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
-            print(imageLocation)
-            image = cv2.imread("receipt_images/{}".format(form.cleaned_data['image']))
-            cv2.imshow("test", image)
-            cv2.waitKey(0)
-
-            return HttpResponse('image upload success')
-        else:
-            return HttpResponse(':(')
+    if request.session.has_key('currentUser'):
+        pass
     else:
-        addReceiptFormData = addReceiptForm()
-        args = {'receiptForm': addReceiptFormData}
-        return render(request, 'shopperHelper/addReceipt.html', args)
+        if request.method == 'POST':
+            form = addReceiptForm(request.POST, request.FILES)
+            if form.is_valid():
+
+                newReceipt = Receipt(image=form.cleaned_data['image'])
+                # m = ExampleModel.objects.get(pk=course_id)
+                # m.model_pic = form.cleaned_data['image']
+                newReceipt.save()
+                print(form.cleaned_data['image'])
+                imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
+                print(imageLocation)
+                image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
+                cv2.imshow("test", image)
+                cv2.waitKey(0)
+
+                return HttpResponse('image upload success')
+            else:
+                return HttpResponse(':(')
+        else:
+            addReceiptFormData = addReceiptForm()
+            args = {'receiptForm': addReceiptFormData}
+            return render(request, 'shopperHelper/addReceipt.html', args)
 
 def register(request):
     return render(request, 'shopperHelper/register.html')
