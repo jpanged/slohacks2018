@@ -16,28 +16,29 @@
     {% block body %}
     <div class="container">
       <div class="jumbotron">
-        <h1>Return Equipment</h1>
-        <p class="lead">Hello {{ userFirstName }}, do you have equipment checked out? If you want to retun equipment, find it in the list below, and click on how many items you want to return.</p>
+        <h1>Select Items to Split</h1>
+        <p class="lead">Hello {{ userFirstName }}, please select the items you want to split.</p>
       </div>
       <!-- <a href="{% url 'another_Action' %}" class="btn btn-outline-success btn-lg btn-block" role="button">Return Selected Equipment</a> -->
       <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Return Selected Equipment</button>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Part</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">ID</th>
-            <th scope="col">Quantity to return</th>
+            <th scope="col">Assign</th>
+            <th scope="col">Item Number</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Item Price</th>
+
           </tr>
         </thead>
         <form>
           {% csrf_token %}
         <tbody class="result" id="result">
-          {% for part,quantity,ID in registered_Parts_List %}
+          {% for number,name,price in items_on_receipt %}
           <tr>
-          <th scope="row">{{ part }}</th>
-          <td scope="row">{{ quantity }}</td>
-          <td scope="row">{{ ID }}</td>
+          <th scope="row">{{ number }}</th>
+          <td scope="row">{{ name }}</td>
+          <td scope="row">{{ price }}</td>
           <td scope="row"><input type="number" class="form-control mb-1 mr-sm-1" id="quantity_to_remove_{{ part }}" max="{{ quantity }}" min=0 value="0" placeholder="MAX: {{ quantity }}" onchange="var _part = '{{ part }}';var _quantity = this.value; var _id = '{{ ID }}';addPartToOrder(_part, _quantity,_id)"></td>
         </tr>
           {% endfor %}

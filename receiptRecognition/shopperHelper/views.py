@@ -106,6 +106,7 @@ def addReceipt(request):
                 # m = ExampleModel.objects.get(pk=course_id)
                 # m.model_pic = form.cleaned_data['image']
                 newReceipt.save()
+                request.session['receiptID'] = newReceipt.receiptID
                 print(form.cleaned_data['image'])
                 imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
                 print("#########################################\###########################")
@@ -208,8 +209,19 @@ def register(request):
 
 def selectItems(request):
     if request.session.has_key('currentUser'):
-        indForm = CreateIndForm()
-        args = {'indForm': indForm}
+        items_on_receipt_list = []
+
+        all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
+
+
+        for i in range(len(list(all_items.items.all())    )):
+            number = all_items[i].items.number
+            name = all_items[i].items.name
+            price = all_items[i].items.price
+            # partData = {"PartName": part, "PartQty": partQty}
+            registered_Items_inner = [number, name, price]
+            items_on_receipt_list.append(registered_Items_inner)
+        args = {'items_on_receipt': items_on_receipt_list}
         return render(request, 'shopperHelper/create_group.html', args)
 
     else:
