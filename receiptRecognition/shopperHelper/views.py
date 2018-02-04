@@ -28,3 +28,12 @@ def login(request):
             loginFormInput = loginForm()
             args = {'loginForm': loginFormInput}
             return render(request, 'shopperHelper/login.html', args)
+
+def landing(request):
+    return render(request, 'shopperHelper/landing.html')
+
+def createGroup(request):
+    return render(request, 'shopperHelper/create_group.html')
+
+def addReceipt(request):
+    return render(request, 'shopperHelper/addReceipt.html')
