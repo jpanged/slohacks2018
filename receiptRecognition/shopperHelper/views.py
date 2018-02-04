@@ -7,7 +7,7 @@ from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import user, item
-from shopperHelper.forms import loginForm
+from .forms import loginForm
 
 from django.shortcuts import render
 #mysite = receiptRecognition
@@ -21,8 +21,10 @@ def login(request):
         return render(request, 'shopperHelper/login.html')
     else:
         if request.method == 'POST':
-            checkPolyCardForm = studentLoginForm(request.POST)
+            loginFormData = studentLoginForm(request.POST)
             if loginForms.is_valid():
                 return render(request, 'shopperHelper/login.html')
         else:
-            return render(request, 'shopperHelper/login.html')
+            loginFormInput = loginForm()
+            args = {'loginForm': loginFormInput}
+            return render(request, 'shopperHelper/login.html', args)

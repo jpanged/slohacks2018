@@ -5,8 +5,8 @@ from .models import user, item
 
 
 class loginForm(forms.ModelForm):
-    login_form_data = forms.CharField(attrs={'class': 'form-control', 'id': 'loginUserInput'},required=True)
+    login_form_data = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'loginUserInput'}))
 
     class Meta:
-        model = User
+        model = user
         fields = ('phone',)

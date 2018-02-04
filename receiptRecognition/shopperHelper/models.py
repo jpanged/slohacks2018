@@ -7,7 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class item(models.Model):
     number = models.CharField(null=True, max_length=200)
     name = models.CharField(null=True, max_length=200)
-    price = models.IntegerField(null=True, max_length=200)
+    price = models.IntegerField(null=True,)
     displayName = models.CharField(null=True, max_length=200)
 
     def __str__(self):
