@@ -35,7 +35,7 @@ blockBounds.write(str(response))
 
 tupList = []
 
-for index, response in enumerate(text_annotations):
+for index, response in enumerate(response.text_annotations):
     x1 = response.text_annotations[index].bounding_poly.vertices[0].x
     y1 = response.text_annotations[index].bounding_poly.vertices[0].y
     x2 = response.text_annotations[index].bounding_poly.vertices[1].x
