@@ -1,29 +1,44 @@
-<form class="partSelect" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div class="form-row">
-    <div class="form-group col-md-7">
-      <label for="username">Group Name</label> {{ receiptForm.image }}
-    </div>
-    <div class="form-group col-md-5">
-      <label for="username">Add Member</label> {{ receiptForm.group_Assigned }}
-    </div>
-  </div>
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
 
-  <!-- <div class="form-row">
+<!DOCTYPE html>
+<html>
 
-    <div class="form-group col-md-6">
-      <label for="">&nbsp</label>
-      <button id="addItemButton" class="btn btn-outline-primary btn-large btn-block" onclick="addPartToOrder()" type="submit">Add item</button>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="">&nbsp</label>
-      <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
-    </div> -->
+<head>
+  {% block head %}
+  <title>ADD RECEIPT</title>
+  {% endblock %}
+</head>
+
     <input type="submit" value="Submit" />
   </div>
-
-  <!-- <div class="form-row">
-      <label for="">&nbsp</label>
-      <button id="addItemButton submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="addPartToOrder()" type="submit">Add</button>
-  </div> -->
 </form>
+
+
+{% block body %}
+
+<body onload="pageLoadScripts()">
+
+
+  <div class="container ">
+    <div class="jumbotron">
+      <h1>Add a receipt</h1>
+      <p class="lead">Hello {{ userFirstName }}. Use this page to add a receipt.</p>
+    </div>
+
+    <form class="partSelect" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-7">
+          <label for="username">Image</label> {{ receiptForm.image }}
+        </div>
+        <div class="form-group col-md-5">
+          <label for="username">Group Assigned</label> {{ receiptForm.group_Assigned }}
+        </div>
+      </div>
+
+    <br>
+  </div>
+  {% endblock %}
+</body>
+</html>

@@ -64,7 +64,7 @@ def landing(request):
 
 def createGroup(request):
     if request.session.has_key('currentUser'):
-
+        pass
     else:
         GroupForm = createGroupForm()
         args = {'groupForm': GroupForm}

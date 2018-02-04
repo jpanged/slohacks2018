@@ -11,6 +11,13 @@ for i in range(len(list(User.objects.all()))):
     ALL_MEMBERS.append(('{}'.format(userC), '{}'.format(userC)))
 print(ALL_MEMBERS)
 
+print(list(Group.objects.all()))
+ALL_GROUPS = []
+for i in range(len(list(Group.objects.all()))):
+    groupC = Group.objects.values('name')[i]['name']
+    ALL_GROUPS.append(('{}'.format(groupC), '{}'.format(groupC)))
+print(ALL_GROUPS)
+
 class loginForm(forms.ModelForm):
     login_form_data = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'loginUserInput'}))
 
@@ -45,6 +52,7 @@ class createGroupForm(forms.ModelForm):
 class addReceiptForm(forms.ModelForm):
     image = forms.ImageField()
     group_Assigned = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'group_assigned'}))
+    group_Assigned = forms.CharField(widget=forms.Select(choices=ALL_GROUPS, attrs={'class': 'form-control', 'id': 'group_assigned'}))
 
     class Meta:
         model = Receipt
