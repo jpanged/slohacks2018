@@ -40,6 +40,8 @@ print(response.text_annotations[0].description)
 #Full string of data
 t = response.text_annotations[0].description
 
+print (type(t))
+
 #Removes everything before phone #
 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
 i = r.end(0)
@@ -77,8 +79,8 @@ for element in no_and_names:
     item_nos.append(element[1:i])
     item_names.append(element[i + 1:])
 
-print(item_nos)
-print(item_names)
+#print(item_nos)
+#print(item_names)
 print(item_prices)
 
 master_list = []
