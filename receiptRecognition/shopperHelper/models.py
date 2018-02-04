@@ -16,7 +16,7 @@ class item(models.Model):
 class user(models.Model):
     first_Name = models.CharField(max_length=100, blank = True)
     last_Name = models.CharField(max_length=100, blank = True)
-    #user_Type = models.CharField(max_length=100, default="STUDENT")
+    user_Type = models.CharField(max_length=100, default="STUDENT")
     email = models.EmailField(null=True, max_length=100, blank = True)
     #phone = PhoneNumberField()
     phone = models.IntegerField(null=True)
