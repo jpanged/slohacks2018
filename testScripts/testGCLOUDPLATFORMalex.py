@@ -34,6 +34,7 @@ texts = response.text_annotations
 blockBounds.write(str(response))
 
 tupList = []
+tupList1 = []
 index = 0;
 
 for response in response.text_annotations:
@@ -55,6 +56,11 @@ for response in response.text_annotations:
     testTuple = (response.description, c1)
     tupList.append(testTuple)
     index += 1
+
+def getKey(item):
+    return item[1][0][1]
+
+tupList1 = sorted(tupList, key=getKey)
 
 
 
