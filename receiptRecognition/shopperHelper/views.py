@@ -36,10 +36,7 @@ def login(request):
 
     if request.session.has_key('currentUser'):
         #return render(request, 'shopperHelper/login.html')
-        redirect('/shopperHelper/landing')
-
-
-
+        return redirect('/shopperHelper/landing')
     else:
         if request.method == 'POST':
             form = loginForm(request.POST or None)
@@ -90,9 +87,15 @@ def landing(request):
 
 def createGroup(request):
     if request.session.has_key('currentUser'):
-        GroupForm = createGroupForm()
-        args = {'groupForm': GroupForm}
-        return render(request, 'shopperHelper/create_group.html', args)
+        if request.method == 'POST':
+            form = createGroupForm(request.POST or None)
+            groupName = form.cleaned_data['group_name']
+            group_members = form.cleaned_data['group_members']
+            print(group_members)
+        else:
+            GroupForm = createGroupForm()
+            args = {'groupForm': GroupForm}
+            return render(request, 'shopperHelper/create_group.html', args)
     else:
        return redirect('/shopperHelper/')
 
