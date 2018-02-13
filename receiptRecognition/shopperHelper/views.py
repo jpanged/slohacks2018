@@ -118,7 +118,7 @@ def addReceipt(request):
                 cv2.imshow("imageLocation", image)
                 cv2.waitKey(0)
 
-                credentials = service_account.Credentials.from_service_account_file("..//slohacks-feb4bf79b42b.json")
+                credentials = service_account.Credentials.from_service_account_file("..//slohacks-servicekey.json")
 
                 # Instantiates a client
                 client = vision.ImageAnnotatorClient(credentials=credentials)
