@@ -25,7 +25,7 @@
   {% with url_name=request.resolver_match.url_name %}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand mb-0 h1" href="{% url 'studentLogin' %}">Splitty</a>
-
+    <a class="navbar-brand mb-0 h1" href="{% url 'studentLogout' %}">Log Out</a>
     </div>
   </nav>
   {% endwith %} {% block body %}

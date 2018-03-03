@@ -246,3 +246,12 @@ def selectItems(request):
 
     else:
         return redirect('/shopperHelper/')
+
+def logout(request):
+    try:
+        del request.session['currentUser']
+    except:
+        print("Fail")
+        pass
+    args = {'logoutFlag' : "True"}
+    return redirect('/shopperHelper/login/?logoutFlag=True', args)
