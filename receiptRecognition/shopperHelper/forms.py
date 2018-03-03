@@ -26,10 +26,10 @@ class loginForm(forms.ModelForm):
         fields = ('phone',)
 
 class registrationForm(forms.ModelForm):
-    r_fname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_fname'}))
-    r_lname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_lname'}))
-    r_email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_email'}))
-    r_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_phone'}))
+    # r_fname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_fname'}))
+    # r_lname = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_lname'}))
+    # r_email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_email'}))
+    # r_phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'r_phone'}))
 
     class Meta:
         model = User

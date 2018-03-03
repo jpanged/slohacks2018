@@ -31,7 +31,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 class Receipt(models.Model):
     image = models.ImageField(upload_to = 'receipt_images/', default = 'receipt_images/None/no-image.jpg')
     items = models.ManyToManyField(Item)

@@ -7,7 +7,7 @@ from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 import time
 from .models import User, Item, Receipt, Group
-from .forms import loginForm,createGroupForm, addReceiptForm
+from .forms import loginForm,createGroupForm, addReceiptForm, registrationForm
 
 from django.shortcuts import render
 
@@ -35,7 +35,6 @@ def index(request):
 def login(request):
 
     if request.session.has_key('currentUser'):
-        #return render(request, 'shopperHelper/login.html')
         return redirect('/shopperHelper/landing')
     else:
         if request.method == 'POST':
@@ -60,22 +59,22 @@ def login(request):
 
                 print(registeredStatus)
 
-
-
                 if registeredStatus == True:
                     request.session['currentUser'] = str(raw_Phone_Data)
                     return HttpResponseRedirect('/shopperHelper/landing')
                 else:
+                    print ('You should be redirected now')
                     return HttpResponseRedirect('/shopperHelper/register')
 
                 #loginFormData.save()
-                return render(request, 'shopperHelper/login.html')
+                #return render(request, 'shopperHelper/login.html')
             else:
                 return HttpResponseRedirect('/shopperHelper/login')
         else:
             form = loginForm()
             args = {'form': form}
             return render(request, 'shopperHelper/login.html', args)
+
 
 def landing(request):
     if request.session.has_key('currentUser'):
@@ -211,7 +210,7 @@ def addReceipt(request):
                 #return HttpResponse('image upload success')
                 #return redirect('/shopperHelper/checkBoxPage/')
                 #args = {'masterList': master_list}
-                return redirect('/shopperHelper/select_items/')
+                return redirect('/shopperHelper/select_items/?imageUploadSuccessFlag=True')
             else:
                 return HttpResponse(':(')
         else:
@@ -229,10 +228,19 @@ def checkBoxPage(request):
         return redirect('/shopperHelper/')
 
 def register(request):
-    if request.session.has_key('currentUser'):
-        return render(request, 'shopperHelper/register.html')
+    if request.method == 'POST':
+        form = registrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            args = {'logoutFlag' : "True"}
+            return redirect('/shopperHelper/login/?registerFlag=True', args)
     else:
-       return redirect('/shopperHelper/')
+        form = registrationForm()
+        args = {'form': form}
+    #if request.session.has_key('currentUser'):
+        return render(request, 'shopperHelper/register.html', args)
+    #else:
+     #  return redirect('/shopperHelper/')
 
 def selectItems(request):
     if request.session.has_key('currentUser'):
@@ -262,9 +270,8 @@ def selectItems(request):
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'item_list': item_list, 'userFirstName': userData['first_Name']}
+        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True"}
         return render(request, 'shopperHelper/selectItems.html', args)
-
 
     else:
         return redirect('/shopperHelper/')
