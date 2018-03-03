@@ -29,12 +29,18 @@ class Group(models.Model):
     members = models.ManyToManyField(User)
     groupOwner = models.ForeignKey('user', null=True, related_name='groupOwner', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+        
 class Receipt(models.Model):
     image = models.ImageField(upload_to = 'receipt_images/', default = 'receipt_images/None/no-image.jpg')
     items = models.ManyToManyField(Item)
     groupAssigned = models.ForeignKey('group', null=True, related_name='groupAssigned', on_delete=models.CASCADE, blank=True)
     owner = models.ForeignKey('user', null=True, related_name='owner', on_delete=models.CASCADE, blank=True)
     receiptID = models.CharField(blank=True,max_length=200)
+
+    def __str__(self):
+        return self.receiptID
 
 class ItemOnReceipt(models.Model):
     item = models.ForeignKey('item', null=True, related_name='item', on_delete=models.CASCADE)

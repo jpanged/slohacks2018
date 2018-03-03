@@ -9,9 +9,8 @@
   <title>ADD RECEIPT</title>
   {% endblock %}
 </head>
-
-    <input type="submit" value="Submit" />
-  </div>
+    <!-- <input type="submit" value="Submit" /> -->
+  <!-- </div> -->
 </form>
 
 
@@ -20,10 +19,10 @@
 <body onload="pageLoadScripts()">
 
 
-  <div class="container ">
+  <div class="container">
     <div class="jumbotron">
       <h1>Add a receipt</h1>
-      <p class="lead">Hello {{ userFirstName }}. Use this page to add a receipt.</p>
+      <p class="lead">Hello, {{ userFirstName }}. Use this page to add a receipt.</p>
     </div>
 
     <form class="partSelect" method="post" enctype="multipart/form-data">
@@ -36,27 +35,19 @@
              <!-- <input type="file" class="custom-file-input" id="customFile"> -->
              {{ receiptForm.image }}
              <div>
-                <!--<label class="custom-file-label" for="customFile">Choose file</label>-->
                 <div class="fileinput fileinput-new" data-provides="fileinput">
-                    <span class="btn btn-default btn-file"><input type="file" onclick="document.getElementById('selectedFile').click();" /></span>
-                    <span class="fileinput-filename"></span>
-                    <!-- <span class="fileinput-filename"></span><span class="fileinput-new">No file chosen</span> -->
+                    <!-- <span class="btn btn-default btn-file"><input type="file" onclick="document.getElementById('selectedFile').click();" /></span> -->
+                    <span class="fileinput-filename"><input type="file" onclick="document.getElementById('selectedFile').click();" /></span>
+                    <!-- <span class="fileinput-filename"></span> -->
                 </div>
              </div>
-             <!--<input type="button" class="btn btn-primary" value="Choose File" onclick="document.getElementById('selectedFile').click();" />-->
-             <!-- <button type="button" class="btn btn-primary">Upload File</button> -->
-
            </div>
-
         </div>
-
-
-
         <div class="form-group col-md-5">
           <label for="username">Group Assigned</label> {{ receiptForm.group_Assigned }}
         </div>
       </div>
-      <input type="submit" class="btn btn-success" value="Submit" />
+      <input type="submit" class="btn btn-success" role="button" value="Submit" />
     </form>
 
     <br>

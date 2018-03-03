@@ -30,7 +30,8 @@
       <h1>Welcome to the Splitty <strong>(DRS)</strong></h1>
       <p class="lead">Automate your receipt splitting process now!</p>
     </div>
-    <!--CheckPolyCard form-->
+
+    <!--Phone Number Form-->
 
     <form method="post">
       {% csrf_token %}
@@ -45,7 +46,3 @@
     {% endblock %}
   </body>
 </html>
-
-<!--Error message to be implemented later saying that PolyCard is not valid
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
--->

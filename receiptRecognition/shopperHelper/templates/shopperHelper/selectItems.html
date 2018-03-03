@@ -5,7 +5,7 @@
 <html>
   <head>
     {% block head %}
-    <title>RETURN EQUIPMENT</title>
+    <title>SELECT ITEMS</title>
     {% endblock %}
     <!--Needed for importing static files
     {% load static %}
@@ -17,7 +17,7 @@
     <div class="container">
       <div class="jumbotron">
         <h1>Select Items to Split</h1>
-        <p class="lead">Hello {{ userFirstName }}, please select the items you want to split.</p>
+        <p class="lead">Hello, {{ userFirstName }}, please select the items you want to split.</p>
       </div>
 
       <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Clear All Selections</button>

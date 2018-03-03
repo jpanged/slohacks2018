@@ -140,8 +140,6 @@ def addReceipt(request):
 
                 t = response.text_annotations[0].description
 
-                #print (t)
-
                 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
                 i = r.end(0)
 
@@ -189,6 +187,7 @@ def addReceipt(request):
                     #print(newReceipt)
                     newReceipt.items.add(itemT)
                     newReceipt.save()
+
                     # b = Item.objects.filter(number=val[0], name=val[1], price=val[2]).exists()
                     # if b == False:
                     #     print(val)
@@ -226,7 +225,11 @@ def register(request):
 def selectItems(request):
     if request.session.has_key('currentUser'):
         items_on_receipt_list = []
-        print (master_list)
+        x = Receipt.objects.last(id=1)
+        print (x)
+        #print (master_list)
+        #x = addReceipt(request.session['currentUser'])
+        #print (x)
         '''
         all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
 
@@ -241,7 +244,9 @@ def selectItems(request):
         args = {'items_on_receipt': items_on_receipt_list}
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
-        return render(request, 'shopperHelper/selectItems.html')
+        userData = getJSONofCurrentUser(request.session['currentUser'])
+        args = {'userFirstName': userData['first_Name']}
+        return render(request, 'shopperHelper/selectItems.html', args)
 
 
     else:
