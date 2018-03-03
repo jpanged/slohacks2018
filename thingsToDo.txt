@@ -1,0 +1,12 @@
+Debug Current Program
+Implement Group Creation
+--create group_cleaned_data
+Parsing subsequent images
+--image upload success
+implementing check boxes
+--Put a check box on every item in Javascript
+adjust regex to member # instead of costco phone #
+implement logout
+	del request.session(current_user)
+
+
