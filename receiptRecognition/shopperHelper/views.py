@@ -115,8 +115,9 @@ def addReceipt(request):
                 print("#########################################\###########################")
                 print(imageLocation)
                 image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
-                cv2.imshow("imageLocation", image)
-                cv2.waitKey(0)
+                # --SHOWS IMAGE USING OPENCV--
+                #cv2.imshow("imageLocation", image)
+                #cv2.waitKey(0)
 
                 credentials = service_account.Credentials.from_service_account_file("..//slohacks-servicekey.json")
 

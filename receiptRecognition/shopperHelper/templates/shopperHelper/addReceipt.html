@@ -36,9 +36,14 @@
              <!-- <input type="file" class="custom-file-input" id="customFile"> -->
              {{ receiptForm.image }}
              <div>
-                <label class="custom-file-label" for="customFile">Choose file</label>
+                <!--<label class="custom-file-label" for="customFile">Choose file</label>-->
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <span class="btn btn-default btn-file"><input type="file" onclick="document.getElementById('selectedFile').click();" /></span>
+                    <span class="fileinput-filename"></span>
+                    <!-- <span class="fileinput-filename"></span><span class="fileinput-new">No file chosen</span> -->
+                </div>
              </div>
-             <input type="button" class="btn btn-primary" value="Browse..." onclick="document.getElementById('selectedFile').click();" />
+             <!--<input type="button" class="btn btn-primary" value="Choose File" onclick="document.getElementById('selectedFile').click();" />-->
              <!-- <button type="button" class="btn btn-primary">Upload File</button> -->
 
            </div>
