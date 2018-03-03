@@ -40,8 +40,8 @@ class registrationForm(forms.ModelForm):
 
 class createGroupForm(forms.ModelForm):
 
-    group_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'group_name'}))
-    group_members = forms.CharField(widget=forms.Select(choices=ALL_MEMBERS, attrs={'class': 'form-control', 'id': 'member_name'}))
+    #group_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'group_name'}))
+    #group_members = forms.CharField(widget=forms.Select(choices=ALL_MEMBERS, attrs={'class': 'form-control', 'id': 'member_name'}))
 
     class Meta:
         model = Group

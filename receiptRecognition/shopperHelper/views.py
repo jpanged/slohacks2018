@@ -90,17 +90,21 @@ def createGroup(request):
             form = createGroupForm(request.POST or None)
             print (form.errors)
             if form.is_valid():
+                print ('valid')
 
-                groupName = form.cleaned_data['group_name']
-                group_members = form.cleaned_data['group_members']
-                print(groupName)
-                print(group_members)
+                # groupName = form.cleaned_data['group_name']
+                # group_members = form.cleaned_data['group_members']
+                groupName = form.cleaned_data['name']
+                group_members = form.cleaned_data['members']
+                form.save()
                 return render(request, 'shopperHelper/create_group.html')
             else:
+                print ('invalid')
                 return HttpResponseRedirect('/shopperHelper/create_group')
         else:
             GroupForm = createGroupForm()
             userData = getJSONofCurrentUser(request.session['currentUser'])
+            print ('nothing happens')
             args = {'groupForm': GroupForm, 'userFirstName': userData['first_Name']}
             return render(request, 'shopperHelper/create_group.html', args)
     else:
@@ -144,6 +148,11 @@ def addReceipt(request):
                 t = response.text_annotations[0].description
 
                 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
+                #r = re.search('[0-9]*[A-Z]*[\s]*[M]*[e]*[m]*[b]*[e]*[r]*[\s]*[0-9|\s]*', t)
+                #r = re.search('[a-zA-Z0-9_|\s]*[M]*[e]*[m]*[b]*[e]*[r]*[\s]*[0-9|\s]*', t)
+                #r = re.search('[a-zA-Z0-9|\s]*[Member\s]*[\d{12}*', t)
+                #r = re.search('[0-9]\w+\s]*[Member\s]*\d{12}', t)
+
                 i = r.end(0)
 
                 t = t[i+1:]

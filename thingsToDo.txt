@@ -1,6 +1,6 @@
 Debug Current Program
-Implement Group Creation
---create group_cleaned_data
+Implement Group Creation (Fixed, works without javascript)
+--create group_cleaned_data (Fixed, needs to match whats in forms.py)
 Parsing subsequent images (Fixed, but asks user twice to select img)
 --image upload success (Fixed, shows javascript success file and redirects to selectItems page)
 implementing check boxes (Front end displays, need to send it to backend (using element id))
