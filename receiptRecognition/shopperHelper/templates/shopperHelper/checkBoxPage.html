@@ -1,0 +1,30 @@
+<!--Import template base.html layout-->
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <title>Check Box Page</title>
+    {% endblock %}
+    <!--Needed for importing static files
+    {% load static %}
+     <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
+    -->
+  </head>
+  <body>
+    {% block body %}
+    <br>
+    <div class="container">
+      <h1>Check Box Page</h1>
+      <!-- <p>You can register here!</p> -->
+      <!--Registration form-->
+      <!-- <form method="post"> -->
+        <!-- {% csrf_token %} -->
+        <!-- {{ registrationForm.as_p }} -->
+        <!-- <button type="submit" class="btn btn-outline-secondary" role="button">Submit</a> -->
+      <!-- </form> -->
+    </div>
+    {% endblock %}
+  </body>
+</html>

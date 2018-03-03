@@ -19,8 +19,9 @@
         <h1>Select Items to Split</h1>
         <p class="lead">Hello {{ userFirstName }}, please select the items you want to split.</p>
       </div>
-      <!-- <a href="{% url 'another_Action' %}" class="btn btn-outline-success btn-lg btn-block" role="button">Return Selected Equipment</a> -->
-      <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Return Selected Equipment</button>
+
+      <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Clear All Selections</button>
+      <br>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -28,9 +29,10 @@
             <th scope="col">Item Number</th>
             <th scope="col">Item Name</th>
             <th scope="col">Item Price</th>
-
           </tr>
+
         </thead>
+
         <form>
           {% csrf_token %}
         <tbody class="result" id="result">
@@ -45,6 +47,9 @@
         </tbody>
       </form>
       </table>
+      <div class="checkbox">
+          <label><input type="checkbox" value="">Option 1</label>
+      </div>
     </div>
     <script type="text/javascript">
     "use strict";

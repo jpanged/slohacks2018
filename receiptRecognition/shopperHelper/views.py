@@ -25,6 +25,10 @@ from google.cloud.vision import types
 
 from google.oauth2 import service_account
 
+#Declare global variables
+global master_list
+
+
 def getJSONofCurrentUser(sessionData):
     currentUserData = User.objects.get(phone=sessionData).__dict__
     return currentUserData
@@ -106,14 +110,12 @@ def addReceipt(request):
             if form.is_valid():
                 receiptIDText = time.time()
                 newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']),groupAssigned=Group.objects.get(name=form.cleaned_data['group_Assigned']),receiptID=receiptIDText)
-                # m = ExampleModel.objects.get(pk=course_id)
-                # m.model_pic = form.cleaned_data['image']
                 newReceipt.save()
                 request.session['receiptID'] = newReceipt.receiptID
-                print(form.cleaned_data['image'])
+                #print(form.cleaned_data['image'])
                 imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
-                print("#########################################\###########################")
-                print(imageLocation)
+                #print("#########################################\###########################")
+                #print(imageLocation)
                 image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
                 # --SHOWS IMAGE USING OPENCV--
                 #cv2.imshow("imageLocation", image)
@@ -138,7 +140,7 @@ def addReceipt(request):
 
                 t = response.text_annotations[0].description
 
-                print (t)
+                #print (t)
 
                 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
                 i = r.end(0)
@@ -172,16 +174,19 @@ def addReceipt(request):
                 item_nos.extend(['0', '0', '0'])
                 item_names.extend(['SUBTOTAL', 'TAX', 'TOTAL'])
 
+                ##MAKE LIST GLOBAL TO ACCESS IN DIFFERENT VIEW##
                 master_list = []
                 min_length = min([len(item_nos), len(item_names), len(item_prices)])
                 for i in range(0, min_length):
                     master_list.append((item_nos[i], item_names[i], item_prices[i]))
 
+                print (master_list)
+
                 for val in master_list:
-                    print(val)
+                    #print(val)
                     itemT = Item(number = val[0], name = val[1], price = val[2])
                     itemT.save()
-                    print(newReceipt)
+                    #print(newReceipt)
                     newReceipt.items.add(itemT)
                     newReceipt.save()
                     # b = Item.objects.filter(number=val[0], name=val[1], price=val[2]).exists()
@@ -192,9 +197,10 @@ def addReceipt(request):
                     #     newReceipt(item=itemT)
                     #     newReceipt.save()
 
-
-
-                return HttpResponse('image upload success')
+                #return HttpResponse('image upload success')
+                #return redirect('/shopperHelper/checkBoxPage/')
+                args = {'masterList': master_list}
+                return redirect('/shopperHelper/select_items/', args)
             else:
                 return HttpResponse(':(')
         else:
@@ -205,6 +211,12 @@ def addReceipt(request):
     else:
         return redirect('/shopperHelper')
 
+def checkBoxPage(request):
+    if request.session.has_key('currentUser'):
+        return render(request, 'shopperHelper/checkBoxPage.html')
+    else:
+        return redirect('/shopperHelper/')
+
 def register(request):
     if request.session.has_key('currentUser'):
         return render(request, 'shopperHelper/register.html')
@@ -214,7 +226,8 @@ def register(request):
 def selectItems(request):
     if request.session.has_key('currentUser'):
         items_on_receipt_list = []
-
+        print (master_list)
+        '''
         all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
 
 
@@ -226,7 +239,10 @@ def selectItems(request):
             registered_Items_inner = [number, name, price]
             items_on_receipt_list.append(registered_Items_inner)
         args = {'items_on_receipt': items_on_receipt_list}
-        return render(request, 'shopperHelper/create_group.html', args)
+        return render(request, 'shopperHelper/selectItems.html', args)
+        '''
+        return render(request, 'shopperHelper/selectItems.html')
+
 
     else:
         return redirect('/shopperHelper/')
