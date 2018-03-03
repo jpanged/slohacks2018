@@ -31,7 +31,7 @@
           <label for="username">Group Name</label> {{ groupForm.group_name }}
         </div>
         <div class="form-group col-md-5">
-          <label for="username">Add Member</label> {{ groupForm.group_members }}
+          <label for="username">Select Member</label> {{ groupForm.group_members }}
         </div>
       </div>
 
@@ -39,11 +39,11 @@
 
         <div class="form-group col-md-6">
           <label for="">&nbsp</label>
-          <button id="addItemButton" class="btn btn-outline-primary btn-large btn-block" onclick="addPartToOrder()" type="submit">Add item</button>
+          <button id="addItemButton" class="btn btn-outline-primary btn-large btn-block" onclick="addPartToOrder()" type="submit">Add Member to Group</button>
         </div>
         <div class="form-group col-md-6">
           <label for="">&nbsp</label>
-          <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Checkout</button>
+          <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Create Group</button>
         </div>
       </div>
 

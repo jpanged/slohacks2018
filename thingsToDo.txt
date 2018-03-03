@@ -3,10 +3,9 @@ Implement Group Creation
 --create group_cleaned_data
 Parsing subsequent images (Fixed, but asks user twice to select img)
 --image upload success (Fixed, redirects to checkBoxPage)
-implementing check boxes
---Put a check box on every item in Javascript
+implementing check boxes (Front end displays, need to send it to backend)
+--Put a check box on every item in Javascript (Fixed)
 adjust regex to member # instead of costco phone #
 implement logout (Fixed, logout needs to be invisible on login page and also right align)
 	del request.session(current_user)
-
-
+Add create new user functionality

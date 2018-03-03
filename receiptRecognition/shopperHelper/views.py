@@ -101,7 +101,8 @@ def createGroup(request):
                 return HttpResponseRedirect('/shopperHelper/create_group')
         else:
             GroupForm = createGroupForm()
-            args = {'groupForm': GroupForm}
+            userData = getJSONofCurrentUser(request.session['currentUser'])
+            args = {'groupForm': GroupForm, 'userFirstName': userData['first_Name']}
             return render(request, 'shopperHelper/create_group.html', args)
     else:
        return redirect('/shopperHelper/')
@@ -183,7 +184,7 @@ def addReceipt(request):
 
                 print (master_list)
                 item_list = master_list[:-2]
-                
+
 
                 #request.session['master_list'] = master_list
                 request.session['list'] = item_list
@@ -261,7 +262,7 @@ def selectItems(request):
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'item_list': item_list}
+        args = {'item_list': item_list, 'userFirstName': userData['first_Name']}
         return render(request, 'shopperHelper/selectItems.html', args)
 
 

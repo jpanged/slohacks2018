@@ -12,68 +12,85 @@
      <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
     -->
   </head>
-  <body>
     {% block body %}
-    <div class="container">
-      <div class="jumbotron">
-        <h1>Select Items to Split</h1>
-        <p class="lead">Hello, {{ userFirstName }}, please select the items you want to split.</p>
-      </div>
+    <body onload="pageLoadScripts()">
+        <div class="container">
+          <div class="jumbotron">
+            <h1>Select Items to Split</h1>
+            <p class="lead">Hello, {{ userFirstName }}, please select the items you want to split.</p>
+          </div>
 
-      <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Clear All Selections</button>
-      <br>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Assign</th>
-            <th scope="col">Item Number</th>
-            <th scope="col">Item Name</th>
-            <th scope="col">Item Price</th>
-          </tr>
-        </thead>
-        <form>
-          {% csrf_token %}
-        <tbody class="result" id="result">
-          {% for number,name,price in item_list %}
+          <button id="submitButton" class="btn btn-outline-primary btn-lg btn-block" onclick="uncheckAll()" type="reset">Clear All Selections</button>
+          <br>
+          <table class="table table-striped">
+            <thead>
               <tr>
-              <td scope="row"><label><input type="checkbox" value=""></label></th>
-              <th scope="row">{{ number }}</th>
-              <td scope="row">{{ name }}</td>
-              <td scope="row">{{ price }}</td>
+                <th scope="col">Split?</th>
+                <th scope="col">Item Number</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Item Price</th>
               </tr>
-          {% endfor %}
-        </tbody>
-      </form>
-      </table>
-    </div>
-    <script type="text/javascript">
-    "use strict";
-    var outerObj = {};
-    function addPartToOrder(_partName,_partQty,_partID)
-    {
-      var obj = {
-        partName: _partName,
-        partQty: _partQty,
-        partID: _partID
-      };
-      console.log(obj);
-      console.log(outerObj)
-      outerObj[_partName] = obj;
-    };
+            </thead>
+            <form>
+              {% csrf_token %}
+            <tbody class="result" id="result">
+              {% for number,name,price in item_list %}
+                  <tr>
+                  <td scope="row"><label><input type="checkbox" value=""></label></th>
+                  <th scope="row">{{ number }}</th>
+                  <td scope="row">{{ name }}</td>
+                  <td scope="row">{{ price }}</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </form>
+          </table>
+          <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Submit</button>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody class="result" id="result">
+            </tbody>
+          </table>
+        </div>
 
 
 
-    function sendPostData() {
-      // event.preventDefault();
-      var partData = JSON.stringify(outerObj);
-      console.log(partData);
-      $.post("", {
-        csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-        partData
-      });
-    };
-    var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
-    </script>
-    {% endblock %}
+        <script type="text/javascript">
+        "use strict";
+
+        function uncheckAll(){
+            $('input[type="checkbox"]:checked').prop('checked',false);
+        }
+
+        var outerObj = {};
+        function addPartToOrder(_partName,_partQty,_partID)
+        {
+          var obj = {
+            itemNumber: _itemNumber,
+            itemName: _itemName,
+            itemPrice: _itemPrice
+          };
+          console.log(obj);
+          console.log(outerObj)
+          outerObj[_itemName] = obj;
+        };
+
+        function sendPostData() {
+          // event.preventDefault();
+          var itemData = JSON.stringify(outerObj);
+          console.log(itemData);
+          $.post("", {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            itemData
+          });
+        };
+        var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
+        </script>
+        {% endblock %}
   </body>
 </html>
