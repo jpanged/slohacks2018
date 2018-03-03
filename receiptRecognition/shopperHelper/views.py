@@ -25,10 +25,6 @@ from google.cloud.vision import types
 
 from google.oauth2 import service_account
 
-#Declare global variables
-global master_list
-
-
 def getJSONofCurrentUser(sessionData):
     currentUserData = User.objects.get(phone=sessionData).__dict__
     return currentUserData
@@ -93,9 +89,16 @@ def createGroup(request):
     if request.session.has_key('currentUser'):
         if request.method == 'POST':
             form = createGroupForm(request.POST or None)
-            groupName = form.cleaned_data['group_name']
-            group_members = form.cleaned_data['group_members']
-            print(group_members)
+            print (form.errors)
+            if form.is_valid():
+
+                groupName = form.cleaned_data['group_name']
+                group_members = form.cleaned_data['group_members']
+                print(groupName)
+                print(group_members)
+                return render(request, 'shopperHelper/create_group.html')
+            else:
+                return HttpResponseRedirect('/shopperHelper/create_group')
         else:
             GroupForm = createGroupForm()
             args = {'groupForm': GroupForm}
@@ -179,6 +182,12 @@ def addReceipt(request):
                     master_list.append((item_nos[i], item_names[i], item_prices[i]))
 
                 print (master_list)
+                item_list = master_list[:-2]
+                
+
+                #request.session['master_list'] = master_list
+                request.session['list'] = item_list
+
 
                 for val in master_list:
                     #print(val)
@@ -196,10 +205,12 @@ def addReceipt(request):
                     #     newReceipt(item=itemT)
                     #     newReceipt.save()
 
+
+
                 #return HttpResponse('image upload success')
                 #return redirect('/shopperHelper/checkBoxPage/')
-                args = {'masterList': master_list}
-                return redirect('/shopperHelper/select_items/', args)
+                #args = {'masterList': master_list}
+                return redirect('/shopperHelper/select_items/')
             else:
                 return HttpResponse(':(')
         else:
@@ -225,8 +236,13 @@ def register(request):
 def selectItems(request):
     if request.session.has_key('currentUser'):
         items_on_receipt_list = []
-        x = Receipt.objects.last(id=1)
-        print (x)
+        #master_list = request.session['master_list']
+        item_list = request.session['list']
+        #print (master_list)
+        print (item_list)
+
+        #x = Receipt.objects.last(id=1)
+        #print (x)
         #print (master_list)
         #x = addReceipt(request.session['currentUser'])
         #print (x)
@@ -245,7 +261,7 @@ def selectItems(request):
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'userFirstName': userData['first_Name']}
+        args = {'item_list': item_list}
         return render(request, 'shopperHelper/selectItems.html', args)
 
 
