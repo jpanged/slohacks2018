@@ -65,9 +65,6 @@ def login(request):
                 else:
                     print ('You should be redirected now')
                     return HttpResponseRedirect('/shopperHelper/register')
-
-                #loginFormData.save()
-                #return render(request, 'shopperHelper/login.html')
             else:
                 return HttpResponseRedirect('/shopperHelper/login')
         else:
@@ -79,7 +76,7 @@ def login(request):
 def landing(request):
     if request.session.has_key('currentUser'):
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'userFirstName': userData['first_Name']}
+        args = {'userFirstName': userData['first_Name'], 'createGroupSuccessFlag' : "True"}
         return render(request, 'shopperHelper/landing.html',args)
     else:
         return redirect('/shopperHelper/')
@@ -88,23 +85,20 @@ def createGroup(request):
     if request.session.has_key('currentUser'):
         if request.method == 'POST':
             form = createGroupForm(request.POST or None)
-            print (form.errors)
+            #print (form.errors) --for debugging purposes
             if form.is_valid():
-                print ('valid')
 
                 # groupName = form.cleaned_data['group_name']
                 # group_members = form.cleaned_data['group_members']
                 groupName = form.cleaned_data['name']
                 group_members = form.cleaned_data['members']
                 form.save()
-                return render(request, 'shopperHelper/create_group.html')
+                return redirect('/shopperHelper/landing/?createGroupSuccessFlag=True')
             else:
-                print ('invalid')
                 return HttpResponseRedirect('/shopperHelper/create_group')
         else:
             GroupForm = createGroupForm()
             userData = getJSONofCurrentUser(request.session['currentUser'])
-            print ('nothing happens')
             args = {'groupForm': GroupForm, 'userFirstName': userData['first_Name']}
             return render(request, 'shopperHelper/create_group.html', args)
     else:
@@ -119,14 +113,8 @@ def addReceipt(request):
                 newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']),groupAssigned=Group.objects.get(name=form.cleaned_data['group_Assigned']),receiptID=receiptIDText)
                 newReceipt.save()
                 request.session['receiptID'] = newReceipt.receiptID
-                #print(form.cleaned_data['image'])
                 imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
-                #print("#########################################\###########################")
-                #print(imageLocation)
                 image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
-                # --SHOWS IMAGE USING OPENCV--
-                #cv2.imshow("imageLocation", image)
-                #cv2.waitKey(0)
 
                 credentials = service_account.Credentials.from_service_account_file("..//slohacks-servicekey.json")
 
@@ -143,11 +131,11 @@ def addReceipt(request):
                 response = client.text_detection(image=image)
                 document = response.full_text_annotation
                 texts = response.text_annotations
-                # blockBounds.write(str(response))
 
                 t = response.text_annotations[0].description
 
                 r = re.search('([0-9]|\s]*)[0-9|\s]*-[0-9|\s]*', t)
+                #Trying to implment regex for member numbers
                 #r = re.search('[0-9]*[A-Z]*[\s]*[M]*[e]*[m]*[b]*[e]*[r]*[\s]*[0-9|\s]*', t)
                 #r = re.search('[a-zA-Z0-9_|\s]*[M]*[e]*[m]*[b]*[e]*[r]*[\s]*[0-9|\s]*', t)
                 #r = re.search('[a-zA-Z0-9|\s]*[Member\s]*[\d{12}*', t)
@@ -184,7 +172,6 @@ def addReceipt(request):
                 item_nos.extend(['0', '0', '0'])
                 item_names.extend(['SUBTOTAL', 'TAX', 'TOTAL'])
 
-                ##MAKE LIST GLOBAL TO ACCESS IN DIFFERENT VIEW##
                 master_list = []
                 min_length = min([len(item_nos), len(item_names), len(item_prices)])
                 for i in range(0, min_length):
@@ -192,7 +179,6 @@ def addReceipt(request):
 
                 print (master_list)
                 item_list = master_list[:-2]
-
 
                 #request.session['master_list'] = master_list
                 request.session['list'] = item_list
@@ -246,24 +232,15 @@ def register(request):
     else:
         form = registrationForm()
         args = {'form': form}
-    #if request.session.has_key('currentUser'):
         return render(request, 'shopperHelper/register.html', args)
-    #else:
-     #  return redirect('/shopperHelper/')
 
 def selectItems(request):
     if request.session.has_key('currentUser'):
         items_on_receipt_list = []
-        #master_list = request.session['master_list']
-        item_list = request.session['list']
+        item_list = request.session['list'] #takes masterList data from addReceiptView
         #print (master_list)
         print (item_list)
 
-        #x = Receipt.objects.last(id=1)
-        #print (x)
-        #print (master_list)
-        #x = addReceipt(request.session['currentUser'])
-        #print (x)
         '''
         all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
 

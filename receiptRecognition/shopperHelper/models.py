@@ -3,7 +3,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
-
 class Item(models.Model):
     number = models.CharField(null=True, max_length=200)
     name = models.CharField(null=True, max_length=200)
@@ -16,9 +15,7 @@ class Item(models.Model):
 class User(models.Model):
     first_Name = models.CharField(max_length=100)
     last_Name = models.CharField(max_length=100)
-    # user_Type = models.CharField(max_length=100, default="STUDENT")
     email = models.EmailField(null=True, max_length=100)
-    #phone = models.CharField(null=False,max_length=10)
     phone = models.CharField(default = None, blank = True, max_length=10)
 
     def __str__(self):
