@@ -50,7 +50,7 @@ class createGroupForm(forms.ModelForm):
         exclude = ('groupOwner',)
 
 class addReceiptForm(forms.ModelForm):
-    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn-primary', 'id': 'selectedFile', 'style':"display: none"}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn-primary', 'id': 'selectedFile'}))
     # group_Assigned = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'group_assigned'}))
     group_Assigned = forms.CharField(widget=forms.Select(choices=ALL_GROUPS, attrs={'class': 'form-control', 'id': 'group_assigned'}))
 
