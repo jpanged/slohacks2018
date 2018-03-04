@@ -14,15 +14,15 @@
   </head>
   <body>
     {% block body %}
-    <div class="container">
+    <div class="container">k
       <div class="jumbotron">
         <!-- <h1>Welcome {{ userFirstName }}</h1> -->
+        <img src="../../static/shopperHelper/logo/splittyLogo.png" alt="It's Litty" style="width:20%;">
         <h1>Thank you for using Splitty!</h1>
         <p>(*It's Litty*)</p>
         <h6>A summary of this transaction has been sent to your phone</h6>
       </div>
-
-      <p><a href="{% url 'landing' %}" class="btn btn-outline-primary">Split Another Receipt?</a></p>
+      <p><a href="{% url 'landing' %}" class="btn btn-outline-primary btn-large btn-block">Split Another Receipt?</a></p>
     <!-- <div class="container"> -->
 
     <!-- </div> -->
