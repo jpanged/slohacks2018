@@ -6,6 +6,9 @@ __pycache__/
 # API Keys
 slohacks-*.json
 
+# Uploaded Images
+/receiptRecognition/media/receipt_images/*
+
 # C extensions
 *.so
 
