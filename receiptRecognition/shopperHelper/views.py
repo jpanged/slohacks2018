@@ -128,10 +128,11 @@ def addReceipt(request):
                 membersList= []
 
                 for item in members_qs:
-                    membersList.append(item)
+                    name = User.objects.get(pk = item)
+                    membersList.append(name)
 
                 numOfGroupMembers = len(membersList)
-                request.session['numOfGroupMembers'] = numOfGroupMembers
+                request.session['groupMemberNames'] = numOfGroupMembers
                 '''
                 print (Group.objects.all())
                 for item in Group.objects.all():
