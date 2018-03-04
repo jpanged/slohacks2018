@@ -25,6 +25,8 @@ from google.cloud.vision import types
 
 from google.oauth2 import service_account
 
+from twilio.rest import Client
+
 def getJSONofCurrentUser(sessionData):
     currentUserData = User.objects.get(phone=sessionData).__dict__
     return currentUserData
@@ -337,6 +339,25 @@ def selectItems(request):
             itemizedList.append(calc_totals(masterList, itemFloatPriceList))
 
             print (itemizedList)
+
+            # Your Account SID from twilio.com/console
+            account_sid = "AC891db5ead0708ec9757f5cf4f009f9db"
+            # Your Auth Token from twilio.com/console
+            auth_token  = "631502c4f691037cb4746124b1208cc2"
+
+            for i in range(0, len(itemizedList[0])):
+                print (type(itemizedList[0]))
+                print (type(itemizedList[0][i]))
+                # print (item[0][i][1])
+                print (type(itemizedList[0][i][1]))
+                message = ("Hello! You owe: $" + str(itemizedList[0][i][1]))
+                client = Client(account_sid, auth_token)
+
+                message = client.api.account.messages.create(
+                    to= ("+1" + str(itemizedList[0][i][0])),
+                    from_="+15106942080",
+                    body=message)
+
 
             '''
             print (receiptList) #[(True, '5108610831', '1'), (True, '9253535156', '1'), (True, '8189394534', '1')]
