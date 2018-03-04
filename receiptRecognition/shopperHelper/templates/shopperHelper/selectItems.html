@@ -16,6 +16,8 @@
     {% csrf_token %}
     <body onload="pageLoadScripts()">
         <div class="container">
+            <!-- <form method="post"> -->
+
 
             {%if request.GET.imageUploadSuccessFlag == "True" %}
               <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -33,11 +35,11 @@
 
           <button id="submitButton" class="btn btn-outline-primary btn-lg btn-block" onclick="uncheckAll()" type="reset">Clear All Selections</button>
           <br>
-          {% for fullName in nameOfGroupMembersList %}
+          {% for phone in phoneNumberOfGroupMembersList %}
           <table class="table table-striped">
             <thead>
               <tr>
-                <h3> {{ fullName }} </h3>
+                <h3> {{ phone }} </h3>
                 <th scope="col">Split?</th>
                 <th scope="col">Item Number</th>
                 <th scope="col">Item Name</th>
@@ -49,7 +51,7 @@
             <tbody class="result" id="result">
               {% for itemNumber, itemName, itemPrice in item_list %}
                   <tr>
-                  <td scope="row"><label><input type="checkbox" name="{{ fullName }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.checked; var _userAssigned = '{{ fullName }}';addItemToOrder(_item, _assigned, _userAssigned)"></label></th>
+                  <td scope="row"><label><input type="checkbox" name="{{ phone }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.checked; var _userAssigned = '{{ phone }}';addItemToOrder(_item, _assigned, _userAssigned)"></label></th>
                   <th scope="row">{{ itemNumber }}</th>
                   <td scope="row">{{ itemName }}</td>
                   <td scope="row">{{ itemPrice }}</td>
@@ -58,19 +60,11 @@
               {% endfor %}
           {% endfor %}
             </tbody>
-          </form>
+          <!-- </form> -->
           </table>
           <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Submit</button>
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Delete</th>
-              </tr>
-            </thead>
-            <tbody class="result" id="result">
-            </tbody>
-          </table>
+          <!-- s<button id="submitButton" class="btn btn-outline-success btn-lg btn-block" type="submit">Submit</button> -->
+      </form>
         </div>
 
 
@@ -86,9 +80,9 @@
         function addItemToOrder(_item,_assigned,_userAssigned)
         {
           var obj = {
-            item: _item,
             assigned: _assigned,
-            userAssigned: _userAssigned
+            userAssigned: _userAssigned,
+            item: _item,
           };
           console.log(obj);
           console.log(outerObj);

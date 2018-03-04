@@ -113,42 +113,30 @@ def addReceipt(request):
                 newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']),groupAssigned=Group.objects.get(name=form.cleaned_data['group_Assigned']),receiptID=receiptIDText)
                 print ('--------------------------------------')
 
-                # print (newReceipt.groupAssigned)
-                # c = Group.objects.all()
-                # d = c.members.count()
-                # print (d)
-
                 currentGroup = newReceipt.groupAssigned
                 request.session['group'] = str(currentGroup)
                 #members = Group.objects.filter(name=currentGroup)
 
                 members_qs = Group.objects.filter(name=currentGroup).values_list('members', flat = True).order_by('id')
-                # groupMEMS = members.count()
-                # print (groupMEMS)
+
                 membersList= []
 
                 for item in members_qs:
-                    name = User.objects.get(pk = item)
-                    membersList.append(name)
+                    phoneNumber = User.objects.get(pk = item)
+                    membersList.append(phoneNumber)
 
-                nameOfGroupMembersList = []
-                for fullName in membersList:
-                    nameOfGroupMembersList.append(str(fullName))
+                phoneNumberOfGroupMembersList = []
+                for number in membersList:
+                    phoneNumberOfGroupMembersList.append(str(number))
                 # print (type(nameOfGroupMembers))
                 # print (nameOfGroupMembers[0])
                 # print (type(nameOfGroupMembers[0]))
                 # print (str(nameOfGroupMembers[0]))
-                print (nameOfGroupMembersList)
+                print (phoneNumberOfGroupMembersList)
 
-                #print (nameOfGroupMembers.first_Name, nameOfGroupMembers.last_Name)
-                print (type(nameOfGroupMembersList[0]))
+                print (type(phoneNumberOfGroupMembersList[0]))
 
-                request.session['nameOfGroupMembersList'] = nameOfGroupMembersList
-                '''
-                print (Group.objects.all())
-                for item in Group.objects.all():
-                    print (item.members, item.members.count())
-                '''
+                request.session['phoneNumberOfGroupMembersList'] = phoneNumberOfGroupMembersList
 
                 newReceipt.save()
 
@@ -201,7 +189,6 @@ def addReceipt(request):
                 for p in r:
                     item_prices.append(p)
 
-
                 item_nos = []
                 item_names = []
                 for element in no_and_names:
@@ -219,32 +206,29 @@ def addReceipt(request):
 
                 print (master_list)
                 item_list = master_list[:-2]
+                print (item_list)
+
+                itemNumList = []
+                for item in item_list:
+                    itemNumList.append(item[0])
+
+                print (itemNumList)
+
+                request.session['itemNumList'] = itemNumList
+
 
                 #request.session['master_list'] = master_list
                 request.session['list'] = item_list
 
 
+
                 for val in master_list:
-                    #print(val)
+
                     itemT = Item(number = val[0], name = val[1], price = val[2])
                     itemT.save()
-                    #print(newReceipt)
                     newReceipt.items.add(itemT)
                     newReceipt.save()
 
-                    # b = Item.objects.filter(number=val[0], name=val[1], price=val[2]).exists()
-                    # if b == False:
-                    #     print(val)
-                    #     itemT = Item(number = val[0], name = val[1], price = val[2])
-                    #     itemT.save()
-                    #     newReceipt(item=itemT)
-                    #     newReceipt.save()
-
-
-
-                #return HttpResponse('image upload success')
-                #return redirect('/shopperHelper/checkBoxPage/')
-                #args = {'masterList': master_list}
                 return redirect('/shopperHelper/select_items/?imageUploadSuccessFlag=True')
             else:
                 return HttpResponse(':(')
@@ -279,60 +263,127 @@ def selectItems(request):
         if request.method == 'POST':
             itemData = json.loads(request.POST['itemData'])
             print (itemData)
+            receiptList = []
             for name, item in itemData.items():
+                print ('------------------------------------')
                 print (item)
+                print (item.items()) #{'assigned': True, 'userAssigned': '9253535156', 'item': '1'}
+                elements = (item['assigned'], item['userAssigned'], item['item'])
+                receiptList.append(elements)
+
                 for key, value in item.items():
-                    #print(value)
                     print('{} - {}'.format(key,value))
+                    # y=(key,value)
+                    # x.append(y)
+            print (receiptList)
+            receiptList.sort()
+            print (receiptList)
+            for item in receiptList:
+                if item[0] == False:
+                    receiptList.remove(item)
+            print (receiptList)
+
+            phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
+            itemNumList = request.session['itemNumList']
+
+            tempList = []
+            masterList = []
+            print('Start Loop')
+            #For 1 user
+            for h in range(0, len(phoneNumberOfGroupMembersList)):
+                for i in range(0, len(itemNumList)):
+                    j = 0
+                    while 1:
+                        if itemNumList[i] == receiptList[j][2] and phoneNumberOfGroupMembersList[h] == receiptList[j][1]:
+                            if receiptList[j][0] == True:
+                                tempList.append(1)
+                                break
+                            else:
+                                tempList.append(0)
+                                break
+                        else:
+                            j += 1
+                            if j > len(itemNumList):
+                                tempList.append(0)
+                                break
+                masterList.append(tempList)
+                tempList = []
+            print ('Finish Loop')
+            print (masterList)
+
+            '''
+            print (receiptList) #[(True, '5108610831', '1'), (True, '9253535156', '1'), (True, '8189394534', '1')]
+                                #[(True, '9253535156', '1'), (True, '5108610831', '1'), (True, '8189394534', '1')]
+            receiptList.sort()
+            print (receiptList)
+
+
+            itemNumList = request.session['itemNumList']
+            phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
+            print ('-------------------------------------------')
+            print (itemNumList) #['1', '44004', '287783', '30669', '18600']
+            print (phoneNumberOfGroupMembersList) #['5108610831', '9253535156', '8189394534']
+
+            masterArray = []
+            for member in phoneNumberOfGroupMembersList:
+                tempArray = []
+                for receipt in receiptList:
+                    print (receipt[0])
+                    if receipt[0] == True:
+                        for itemNum in itemNumList:
+                            print (receipt[1], receipt[2], itemNum)
+                            if receipt[1] == member and receipt[2] == itemNum:
+                                tempArray.append('1')
+                    else:
+                        tempArray.append('0')
+                print (tempArray)
+
+
+
+
+            masterArray = []
+            i = 0
+            for stdTuple in receiptList:
+                if stdTuple[0] == True:
+                    while i < len(receiptList):
+                        tempArray = []
+                        if phoneNumberOfGroupMembersList[i] == stdTuple[1]:
+                            tempTuple = (stdTuple[1], stdTuple[2])
+                            tempArray.append(tempTuple)
+                            masterArray.append(tempArray)
+                        i += 1
+                else:
+                    pass
+
+            print (masterArray)
+            masterArray.sort()
+            print (masterArray)
+            # return redirect("/shopperHelper/summary/")
+            '''
             return HttpResponse("Hello")
-            #return redirect('/shopperHelper/login/?registerFlag=True', args)
         else:
-
-            items_on_receipt_list = []
-
             item_list = request.session['list'] #takes masterList data from addReceiptView
-            nameOfGroupMembersList = request.session['nameOfGroupMembersList']
-            # numOfGroupMembers = request.session['numOfGroupMembers']
-            # print (numOfGroupMembers)
-            # tempList = []
-            # i = 1
-            # while i < numOfGroupMembers + 1:
-            #     tempList.append(i)
-            #     i += 1
-
-            '''
-            Trying to get len of group list
-            currentGroup = request.session['group']
-            #group_qs = Group.objects.filter(name=currentGroup).prefetch_related('members')
-            x = Group.objects.get(name=currentGroup)
-            for item in Group.objects.filter(name=currentGroup):
-                print (item.members, item.members.count())
-            #members = User.objects.filter(group=group_qs)
-            print (x)
-            print ('The Current Group is: {}'.format(currentGroup))
-            '''
+            phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
             #print (master_list)
             print (item_list)
-
-            '''
-            all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
-
-
-            for i in range(len(list(all_items.items.all())    )):
-                number = all_items[i].items.number
-                name = all_items[i].items.name
-                price = all_items[i].items.price
-                # partData = {"PartName": part, "PartQty": partQty}
-                registered_Items_inner = [number, name, price]
-                items_on_receipt_list.append(registered_Items_inner)
-            args = {'items_on_receipt': items_on_receipt_list}
-            return render(request, 'shopperHelper/selectItems.html', args)
-            '''
             userData = getJSONofCurrentUser(request.session['currentUser'])
-            args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'nameOfGroupMembersList' : nameOfGroupMembersList,}
+            args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'phoneNumberOfGroupMembersList' : phoneNumberOfGroupMembersList,}
             return render(request, 'shopperHelper/selectItems.html', args)
+
     else:
         return redirect('/shopperHelper/')
+
+'''
+def summary(request):
+    if request.session.has_key('currentUser'):
+        # if request.method == 'POST':
+        return render(request, 'shopperHelper/summary.html')
+        # else:
+        #     return render(request, 'shopperHelper/summary.html')
+
+    else:
+        return redirect('/shopperHelper/')
+'''
 
 def logout(request):
     try:

@@ -5,7 +5,7 @@
 <html>
   <head>
     {% block head %}
-    <title>Transaction Summary Page</title>
+    <title> Summary Page</title>
     {% endblock %}
     <!--Needed for importing static files
     {% load static %}
@@ -14,12 +14,16 @@
   </head>
   <body>
     {% block body %}
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Welcome {{ userFirstName }}</h1>
+        <p class="lead">Summary</p>
+      </div>
     <br>
     <div class="container">
       <h1>Transaction Summary Page</h1>
       <h6>A PDF of this transaction has been sent to your email</h6>
       <h6>A PDF of this transaction has been sent to your phone</h6>
-      <a href="{% url 'checkPolyCardData' %}" class="btn btn-outline-secondary btn-lg btn-block" role="button">Finish Transaction</a>
     </div>
     {% endblock %}
   </body>

@@ -18,7 +18,8 @@ class User(models.Model):
     email = models.EmailField(null=True, max_length=100)
     phone = models.CharField(default = None, blank = True, max_length=10)
     def __str__(self):
-        return "{} {}".format(self.first_Name, self.last_Name)
+        # return "{} {}".format(self.first_Name, self.last_Name)
+        return self.phone
 
 class Group(models.Model):
     name = models.CharField(max_length=200)

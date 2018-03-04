@@ -1,4 +1,7 @@
 Debug Current Program
+create identification w/ phone # (unique) rather than first and last name
+2D array for Alex
+redirect to summary page
 Implement Group Creation (Fixed, works without javascript, needs to refresh when adding a receipt)
 --create group_cleaned_data (Fixed, needs to match whats in forms.py)
 Parsing subsequent images (Fixed, but asks user twice to select img)
