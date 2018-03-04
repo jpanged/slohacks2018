@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^addReceipt/$',      views.addReceipt,      name='addReceipt'),
     url(r'^register/$',      views.register,      name='register'),
     url(r'^select_items/$',      views.selectItems,      name='selectItems'),
-    # url(r'^summary/$',      views.summary,      name='summary'),
+    url(r'^summary/$',      views.summary,      name='summary'),
 ]

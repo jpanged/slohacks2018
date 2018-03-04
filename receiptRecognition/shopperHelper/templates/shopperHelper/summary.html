@@ -16,15 +16,16 @@
     {% block body %}
     <div class="container">
       <div class="jumbotron">
-        <h1>Welcome {{ userFirstName }}</h1>
-        <p class="lead">Summary</p>
+        <!-- <h1>Welcome {{ userFirstName }}</h1> -->
+        <h1>Thank you for using Splitty!</h1>
+        <p>(*It's Litty*)</p>
+        <h6>A summary of this transaction has been sent to your phone</h6>
       </div>
-    <br>
-    <div class="container">
-      <h1>Transaction Summary Page</h1>
-      <h6>A PDF of this transaction has been sent to your email</h6>
-      <h6>A PDF of this transaction has been sent to your phone</h6>
-    </div>
+
+      <p><a href="{% url 'landing' %}" class="btn btn-outline-primary">Split Another Receipt?</a></p>
+    <!-- <div class="container"> -->
+
+    <!-- </div> -->
     {% endblock %}
   </body>
 </html>

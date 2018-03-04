@@ -406,9 +406,10 @@ def selectItems(request):
             print (masterArray)
             masterArray.sort()
             print (masterArray)
-            # return redirect("/shopperHelper/summary/")
             '''
-            return HttpResponse("Hello")
+            return redirect("/shopperHelper/summary/")
+
+            #return HttpResponse("Hello")
         else:
             item_list = request.session['list'] #takes masterList data from addReceiptView
             phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
@@ -421,7 +422,7 @@ def selectItems(request):
     else:
         return redirect('/shopperHelper/')
 
-'''
+# '''
 def summary(request):
     if request.session.has_key('currentUser'):
         # if request.method == 'POST':
@@ -431,7 +432,7 @@ def summary(request):
 
     else:
         return redirect('/shopperHelper/')
-'''
+# '''
 
 # class Item:
 #     def __init__(self, price):
