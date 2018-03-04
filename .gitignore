@@ -5,7 +5,7 @@ __pycache__/
 
 # API Keys
 slohacks-*.json
-/receiptRecognition/shopperHelper/secret.py
+/receiptRecognition/secret.py
 
 # Uploaded Images
 /receiptRecognition/media/receipt_images/*
