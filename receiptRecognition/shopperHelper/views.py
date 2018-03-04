@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.forms import forms
 from django.core.exceptions import ObjectDoesNotExist
 import time
+import secret
 from .models import User, Item, Receipt, Group
 from .forms import loginForm,createGroupForm, addReceiptForm, registrationForm
 
@@ -341,9 +342,9 @@ def selectItems(request):
             print (itemizedList)
 
             # Your Account SID from twilio.com/console
-            account_sid = "AC891db5ead0708ec9757f5cf4f009f9db"
+            account_sid = secret.account_sid
             # Your Auth Token from twilio.com/console
-            auth_token  = "631502c4f691037cb4746124b1208cc2"
+            auth_token  = secret.auth_token
 
             for i in range(0, len(itemizedList[0])):
                 print (type(itemizedList[0]))
