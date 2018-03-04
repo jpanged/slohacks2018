@@ -209,12 +209,22 @@ def addReceipt(request):
                 print (item_list)
 
                 itemNumList = []
+                itemPriceList = []
                 for item in item_list:
                     itemNumList.append(item[0])
+                    itemPriceList.append((item[2]))
 
                 print (itemNumList)
+                print ('########################################')
+                itemFloatPriceList = []
+                # for item in itemPriceList:
+                for i in range(0, len(itemPriceList)):
+                    item = float(itemPriceList[i])
+                    itemFloatPriceList.append(item)
+                print (itemPriceList)
 
                 request.session['itemNumList'] = itemNumList
+                request.session['itemFloatPriceList'] = itemFloatPriceList
 
 
                 #request.session['master_list'] = master_list
@@ -285,12 +295,24 @@ def selectItems(request):
 
             phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
             itemNumList = request.session['itemNumList']
+            itemFloatPriceList = request.session['itemFloatPriceList']
+
+            print (itemFloatPriceList)
 
             tempList = []
             masterList = []
             print('Start Loop')
+            print (len(itemNumList))
+            print (len(receiptList))
+            print (len(phoneNumberOfGroupMembersList))
+
             #For 1 user
+            dummyList = []
+            for k in range(0, len(itemNumList)+1):
+                dummyList.append(0)
+            masterList.append(dummyList)
             for h in range(0, len(phoneNumberOfGroupMembersList)):
+                tempList.append(phoneNumberOfGroupMembersList[h])
                 for i in range(0, len(itemNumList)):
                     j = 0
                     while 1:
@@ -310,6 +332,11 @@ def selectItems(request):
                 tempList = []
             print ('Finish Loop')
             print (masterList)
+
+            itemizedList = []
+            itemizedList.append(calc_totals(masterList, itemFloatPriceList))
+
+            print (itemizedList)
 
             '''
             print (receiptList) #[(True, '5108610831', '1'), (True, '9253535156', '1'), (True, '8189394534', '1')]
@@ -384,6 +411,51 @@ def summary(request):
     else:
         return redirect('/shopperHelper/')
 '''
+
+# class Item:
+#     def __init__(self, price):
+#         self.price = price
+#
+#     def __eq__(self, other):
+#         return ((type(other) == Item)
+#           and self.price == other.price
+#         )
+#
+#     def __repr__(self):
+#         return ("Item({!r})".format(self.price))
+
+def calc_totals(list1, items):
+    print("list1: " + str(list1))
+    print("item prices: " + str(items))
+    list2 = []
+    list3 = []
+    i = 0
+    j = 0
+    for j in range(1, len(list1[i])):
+        list2.append(0)
+        for i in range(1, len(list1)):
+            list2[j-1] += list1[i][j]
+            #print(list2[j-1])
+        #print(list2)
+    i = 0
+    for i in range(0, len(list2)):
+        list2[i] = items[i]/list2[i]
+    print("split price per item: " + str(list2))
+    i = 0
+    j = 0
+    for i in range(1, len(list1)):
+        list3.append([list1[i][0], 0])
+        for j in range(0, len(list2)):
+            list3[i-1][1] += list1[i][j+1]*list2[j]
+        list3[i-1][1] = round(list3[i-1][1], 2)
+    return list3
+
+# list1 = [[0, "i1", "i2", "i3"],["dom", 1, 1, 0],["russ", 1, 1, 1],["alex", 1, 0, 0]]
+# item1 = Item(2.99)
+# item2 = Item(5.99)
+# item3 = Item(9.99)
+# items = [item1, item2, item3]
+# print("total per person: " + str(calc_totals(list1, items)))
 
 def logout(request):
     try:
