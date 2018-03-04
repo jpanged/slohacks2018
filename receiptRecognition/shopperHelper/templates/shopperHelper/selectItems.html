@@ -13,6 +13,7 @@
     -->
   </head>
     {% block body %}
+    {% csrf_token %}
     <body onload="pageLoadScripts()">
         <div class="container">
 
@@ -44,11 +45,11 @@
               </tr>
             </thead>
             <form>
-              {% csrf_token %}
+
             <tbody class="result" id="result">
               {% for itemNumber, itemName, itemPrice in item_list %}
                   <tr>
-                  <td scope="row"><label><input type="checkbox" name="{{ fullName }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.value; var _userA = '{{ ID }}';addPartToOrder(_part, _quantity,_id)"></label></th>
+                  <td scope="row"><label><input type="checkbox" name="{{ fullName }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.checked; var _userAssigned = '{{ fullName }}';addItemToOrder(_item, _assigned, _userAssigned)"></label></th>
                   <th scope="row">{{ itemNumber }}</th>
                   <td scope="row">{{ itemName }}</td>
                   <td scope="row">{{ itemPrice }}</td>
@@ -81,46 +82,19 @@
             $('input[type="checkbox"]:checked').prop('checked',false);
         }
 
-        // var outerObj = {};
-        // function addPartToOrder(_itemNumber,_itemName,_itemPrice)
-        // {
-        //   var obj = {
-        //     itemNumber: _itemNumber,
-        //     itemName: _itemName,
-        //     itemPrice: _itemPrice
-        //   };
-        //   console.log(obj);
-        //   console.log(outerObj)
-        //   outerObj[_itemName] = obj;
-        // };
-
-        function addPartToOrder(event) {
-          // Stop the form from submitting since we’re handling that with AJAX.
-          event.preventDefault();
-
-          var _userAssigned = document.getElementById("partName").value;
-
+        var outerObj = {};
+        function addItemToOrder(_item,_assigned,_userAssigned)
+        {
           var obj = {
-            partName: _partName,
-            partQty: _partQty,
-            partID: _partID
+            item: _item,
+            assigned: _assigned,
+            userAssigned: _userAssigned
           };
-          console.log(outerObj)
-          var ElementExist = document.getElementById(obj.partName + '_partName');
-          console.log(ElementExist);
-          if (ElementExist == null) {
-            outerObj[_partName] = obj;
-            $('#result').append('<tr id="' + obj.partName + 'row"><th scope="row" id="' + obj.partName + '_partName">' + obj.partName + '</th><td id="' + obj.partName + '_qty">' + obj.partQty + '</td><td id="' + obj.partName + '_IDNumber">' + obj.partID +
-              '</td><td id="' + obj.partName + '_Delete"><button id="deleteEntryButton" class="btn btn-danger" onclick="deleteEntry(this)">Delete</button></td></tr>');
-            // $('#result').append($('ul.list').append('<li>' + obj[1]["Value"] + ' , ' + obj[2]["Value"] + '</li>'));
-            console.log(obj);
-          } else {
-            var totalQty = document.getElementById(obj.partName + '_qty').textContent;
-            document.getElementById(obj.partName + '_qty').innerHTML = parseInt(totalQty) + parseInt(obj.partQty);
-            outerObj[_partName].partQty = parseInt(obj.partQty) + parseInt(outerObj[_partName].partQty)
-            console.log(outerObj[_partName].partQty);
-          };
-
+          console.log(obj);
+          console.log(outerObj);
+          // outerObj[_userAssigned] = obj;
+          var assigner = _userAssigned+_item;
+          outerObj[assigner] = obj;
         };
 
 

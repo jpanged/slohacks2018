@@ -1,9 +1,9 @@
 Debug Current Program
-Implement Group Creation (Fixed, works without javascript)
+Implement Group Creation (Fixed, works without javascript, needs to refresh when adding a receipt)
 --create group_cleaned_data (Fixed, needs to match whats in forms.py)
 Parsing subsequent images (Fixed, but asks user twice to select img)
 --image upload success (Fixed, shows javascript success file and redirects to selectItems page)
-implementing check boxes (Front end displays according to # of people in group, need to send it to backend (using element id))
+implementing check boxes (Fixed, check boxes are assigned to users)
 --Put a check box on every item in Javascript (Fixed)
 adjust regex to member # instead of costco phone #
 implement logout (Fixed, logout needs to be invisible on login page and also right align)

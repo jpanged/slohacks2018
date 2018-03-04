@@ -276,50 +276,61 @@ def register(request):
 
 def selectItems(request):
     if request.session.has_key('currentUser'):
-        items_on_receipt_list = []
+        if request.method == 'POST':
+            itemData = json.loads(request.POST['itemData'])
+            print (itemData)
+            for name, item in itemData.items():
+                print (item)
+                for key, value in item.items():
+                    #print(value)
+                    print('{} - {}'.format(key,value))
+            return HttpResponse("Hello")
+            #return redirect('/shopperHelper/login/?registerFlag=True', args)
+        else:
 
-        item_list = request.session['list'] #takes masterList data from addReceiptView
-        nameOfGroupMembersList = request.session['nameOfGroupMembersList']
-        # numOfGroupMembers = request.session['numOfGroupMembers']
-        # print (numOfGroupMembers)
-        # tempList = []
-        # i = 1
-        # while i < numOfGroupMembers + 1:
-        #     tempList.append(i)
-        #     i += 1
+            items_on_receipt_list = []
 
-        '''
-        Trying to get len of group list
-        currentGroup = request.session['group']
-        #group_qs = Group.objects.filter(name=currentGroup).prefetch_related('members')
-        x = Group.objects.get(name=currentGroup)
-        for item in Group.objects.filter(name=currentGroup):
-            print (item.members, item.members.count())
-        #members = User.objects.filter(group=group_qs)
-        print (x)
-        print ('The Current Group is: {}'.format(currentGroup))
-        '''
-        #print (master_list)
-        print (item_list)
+            item_list = request.session['list'] #takes masterList data from addReceiptView
+            nameOfGroupMembersList = request.session['nameOfGroupMembersList']
+            # numOfGroupMembers = request.session['numOfGroupMembers']
+            # print (numOfGroupMembers)
+            # tempList = []
+            # i = 1
+            # while i < numOfGroupMembers + 1:
+            #     tempList.append(i)
+            #     i += 1
 
-        '''
-        all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
+            '''
+            Trying to get len of group list
+            currentGroup = request.session['group']
+            #group_qs = Group.objects.filter(name=currentGroup).prefetch_related('members')
+            x = Group.objects.get(name=currentGroup)
+            for item in Group.objects.filter(name=currentGroup):
+                print (item.members, item.members.count())
+            #members = User.objects.filter(group=group_qs)
+            print (x)
+            print ('The Current Group is: {}'.format(currentGroup))
+            '''
+            #print (master_list)
+            print (item_list)
+
+            '''
+            all_items = Receipt.objects.get(receiptID=request.session['receiptID'])
 
 
-        for i in range(len(list(all_items.items.all())    )):
-            number = all_items[i].items.number
-            name = all_items[i].items.name
-            price = all_items[i].items.price
-            # partData = {"PartName": part, "PartQty": partQty}
-            registered_Items_inner = [number, name, price]
-            items_on_receipt_list.append(registered_Items_inner)
-        args = {'items_on_receipt': items_on_receipt_list}
-        return render(request, 'shopperHelper/selectItems.html', args)
-        '''
-        userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'nameOfGroupMembersList' : nameOfGroupMembersList,}
-        return render(request, 'shopperHelper/selectItems.html', args)
-
+            for i in range(len(list(all_items.items.all())    )):
+                number = all_items[i].items.number
+                name = all_items[i].items.name
+                price = all_items[i].items.price
+                # partData = {"PartName": part, "PartQty": partQty}
+                registered_Items_inner = [number, name, price]
+                items_on_receipt_list.append(registered_Items_inner)
+            args = {'items_on_receipt': items_on_receipt_list}
+            return render(request, 'shopperHelper/selectItems.html', args)
+            '''
+            userData = getJSONofCurrentUser(request.session['currentUser'])
+            args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'nameOfGroupMembersList' : nameOfGroupMembersList,}
+            return render(request, 'shopperHelper/selectItems.html', args)
     else:
         return redirect('/shopperHelper/')
 
