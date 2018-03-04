@@ -32,11 +32,11 @@
 
           <button id="submitButton" class="btn btn-outline-primary btn-lg btn-block" onclick="uncheckAll()" type="reset">Clear All Selections</button>
           <br>
-          {% for item in tempList %}
+          {% for fullName in nameOfGroupMembersList %}
           <table class="table table-striped">
             <thead>
               <tr>
-                <h3> Member #{{item}} </h3>
+                <h3> {{ fullName }} </h3>
                 <th scope="col">Split?</th>
                 <th scope="col">Item Number</th>
                 <th scope="col">Item Name</th>
@@ -46,12 +46,12 @@
             <form>
               {% csrf_token %}
             <tbody class="result" id="result">
-              {% for number,name,price in item_list %}
+              {% for itemNumber, itemName, itemPrice in item_list %}
                   <tr>
-                  <td scope="row"><label><input type="checkbox" value=""></label></th>
-                  <th scope="row">{{ number }}</th>
-                  <td scope="row">{{ name }}</td>
-                  <td scope="row">{{ price }}</td>
+                  <td scope="row"><label><input type="checkbox" name="{{ fullName }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.value; var _userA = '{{ ID }}';addPartToOrder(_part, _quantity,_id)"></label></th>
+                  <th scope="row">{{ itemNumber }}</th>
+                  <td scope="row">{{ itemName }}</td>
+                  <td scope="row">{{ itemPrice }}</td>
                   </tr>
 
               {% endfor %}
@@ -81,18 +81,48 @@
             $('input[type="checkbox"]:checked').prop('checked',false);
         }
 
-        var outerObj = {};
-        function addPartToOrder(_partName,_partQty,_partID)
-        {
+        // var outerObj = {};
+        // function addPartToOrder(_itemNumber,_itemName,_itemPrice)
+        // {
+        //   var obj = {
+        //     itemNumber: _itemNumber,
+        //     itemName: _itemName,
+        //     itemPrice: _itemPrice
+        //   };
+        //   console.log(obj);
+        //   console.log(outerObj)
+        //   outerObj[_itemName] = obj;
+        // };
+
+        function addPartToOrder(event) {
+          // Stop the form from submitting since we’re handling that with AJAX.
+          event.preventDefault();
+
+          var _userAssigned = document.getElementById("partName").value;
+
           var obj = {
-            itemNumber: _itemNumber,
-            itemName: _itemName,
-            itemPrice: _itemPrice
+            partName: _partName,
+            partQty: _partQty,
+            partID: _partID
           };
-          console.log(obj);
           console.log(outerObj)
-          outerObj[_itemName] = obj;
+          var ElementExist = document.getElementById(obj.partName + '_partName');
+          console.log(ElementExist);
+          if (ElementExist == null) {
+            outerObj[_partName] = obj;
+            $('#result').append('<tr id="' + obj.partName + 'row"><th scope="row" id="' + obj.partName + '_partName">' + obj.partName + '</th><td id="' + obj.partName + '_qty">' + obj.partQty + '</td><td id="' + obj.partName + '_IDNumber">' + obj.partID +
+              '</td><td id="' + obj.partName + '_Delete"><button id="deleteEntryButton" class="btn btn-danger" onclick="deleteEntry(this)">Delete</button></td></tr>');
+            // $('#result').append($('ul.list').append('<li>' + obj[1]["Value"] + ' , ' + obj[2]["Value"] + '</li>'));
+            console.log(obj);
+          } else {
+            var totalQty = document.getElementById(obj.partName + '_qty').textContent;
+            document.getElementById(obj.partName + '_qty').innerHTML = parseInt(totalQty) + parseInt(obj.partQty);
+            outerObj[_partName].partQty = parseInt(obj.partQty) + parseInt(outerObj[_partName].partQty)
+            console.log(outerObj[_partName].partQty);
+          };
+
         };
+
 
         function sendPostData() {
           // event.preventDefault();

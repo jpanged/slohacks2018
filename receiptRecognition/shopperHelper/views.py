@@ -131,8 +131,19 @@ def addReceipt(request):
                     name = User.objects.get(pk = item)
                     membersList.append(name)
 
-                numOfGroupMembers = len(membersList)
-                request.session['groupMemberNames'] = numOfGroupMembers
+                nameOfGroupMembersList = []
+                for fullName in membersList:
+                    nameOfGroupMembersList.append(str(fullName))
+                # print (type(nameOfGroupMembers))
+                # print (nameOfGroupMembers[0])
+                # print (type(nameOfGroupMembers[0]))
+                # print (str(nameOfGroupMembers[0]))
+                print (nameOfGroupMembersList)
+
+                #print (nameOfGroupMembers.first_Name, nameOfGroupMembers.last_Name)
+                print (type(nameOfGroupMembersList[0]))
+
+                request.session['nameOfGroupMembersList'] = nameOfGroupMembersList
                 '''
                 print (Group.objects.all())
                 for item in Group.objects.all():
@@ -268,13 +279,14 @@ def selectItems(request):
         items_on_receipt_list = []
 
         item_list = request.session['list'] #takes masterList data from addReceiptView
-        numOfGroupMembers = request.session['numOfGroupMembers']
-        print (numOfGroupMembers)
-        tempList = []
-        i = 1
-        while i < numOfGroupMembers + 1:
-            tempList.append(i)
-            i += 1
+        nameOfGroupMembersList = request.session['nameOfGroupMembersList']
+        # numOfGroupMembers = request.session['numOfGroupMembers']
+        # print (numOfGroupMembers)
+        # tempList = []
+        # i = 1
+        # while i < numOfGroupMembers + 1:
+        #     tempList.append(i)
+        #     i += 1
 
         '''
         Trying to get len of group list
@@ -305,7 +317,7 @@ def selectItems(request):
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'tempList' : tempList,}
+        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'nameOfGroupMembersList' : nameOfGroupMembersList,}
         return render(request, 'shopperHelper/selectItems.html', args)
 
     else:
