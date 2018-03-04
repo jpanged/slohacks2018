@@ -17,7 +17,6 @@ class User(models.Model):
     last_Name = models.CharField(max_length=100)
     email = models.EmailField(null=True, max_length=100)
     phone = models.CharField(default = None, blank = True, max_length=10)
-
     def __str__(self):
         return "{} {}".format(self.first_Name, self.last_Name)
 

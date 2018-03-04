@@ -111,7 +111,35 @@ def addReceipt(request):
             if form.is_valid():
                 receiptIDText = time.time()
                 newReceipt = Receipt(image=form.cleaned_data['image'],owner=User.objects.get(phone=request.session['currentUser']),groupAssigned=Group.objects.get(name=form.cleaned_data['group_Assigned']),receiptID=receiptIDText)
+                print ('--------------------------------------')
+
+                # print (newReceipt.groupAssigned)
+                # c = Group.objects.all()
+                # d = c.members.count()
+                # print (d)
+
+                currentGroup = newReceipt.groupAssigned
+                request.session['group'] = str(currentGroup)
+                #members = Group.objects.filter(name=currentGroup)
+
+                members_qs = Group.objects.filter(name=currentGroup).values_list('members', flat = True).order_by('id')
+                # groupMEMS = members.count()
+                # print (groupMEMS)
+                membersList= []
+
+                for item in members_qs:
+                    membersList.append(item)
+
+                numOfGroupMembers = len(membersList)
+                request.session['numOfGroupMembers'] = numOfGroupMembers
+                '''
+                print (Group.objects.all())
+                for item in Group.objects.all():
+                    print (item.members, item.members.count())
+                '''
+
                 newReceipt.save()
+
                 request.session['receiptID'] = newReceipt.receiptID
                 imageLocation = Receipt.objects.filter(image=form.cleaned_data['image'])
                 image = cv2.imread("media/receipt_images/{}".format(form.cleaned_data['image']))
@@ -237,7 +265,27 @@ def register(request):
 def selectItems(request):
     if request.session.has_key('currentUser'):
         items_on_receipt_list = []
+
         item_list = request.session['list'] #takes masterList data from addReceiptView
+        numOfGroupMembers = request.session['numOfGroupMembers']
+        print (numOfGroupMembers)
+        tempList = []
+        i = 1
+        while i < numOfGroupMembers + 1:
+            tempList.append(i)
+            i += 1
+
+        '''
+        Trying to get len of group list
+        currentGroup = request.session['group']
+        #group_qs = Group.objects.filter(name=currentGroup).prefetch_related('members')
+        x = Group.objects.get(name=currentGroup)
+        for item in Group.objects.filter(name=currentGroup):
+            print (item.members, item.members.count())
+        #members = User.objects.filter(group=group_qs)
+        print (x)
+        print ('The Current Group is: {}'.format(currentGroup))
+        '''
         #print (master_list)
         print (item_list)
 
@@ -256,7 +304,7 @@ def selectItems(request):
         return render(request, 'shopperHelper/selectItems.html', args)
         '''
         userData = getJSONofCurrentUser(request.session['currentUser'])
-        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True"}
+        args = {'item_list': item_list, 'userFirstName': userData['first_Name'], 'imageUploadSuccessFlag' : "True", 'tempList' : tempList,}
         return render(request, 'shopperHelper/selectItems.html', args)
 
     else:

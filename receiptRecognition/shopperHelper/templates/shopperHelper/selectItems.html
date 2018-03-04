@@ -32,9 +32,11 @@
 
           <button id="submitButton" class="btn btn-outline-primary btn-lg btn-block" onclick="uncheckAll()" type="reset">Clear All Selections</button>
           <br>
+          {% for item in tempList %}
           <table class="table table-striped">
             <thead>
               <tr>
+                <h3> Member #{{item}} </h3>
                 <th scope="col">Split?</th>
                 <th scope="col">Item Number</th>
                 <th scope="col">Item Name</th>
@@ -51,7 +53,9 @@
                   <td scope="row">{{ name }}</td>
                   <td scope="row">{{ price }}</td>
                   </tr>
+                  
               {% endfor %}
+          {% endfor %}
             </tbody>
           </form>
           </table>
