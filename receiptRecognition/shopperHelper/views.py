@@ -95,7 +95,11 @@ def createGroup(request):
                 # group_members = form.cleaned_data['group_members']
                 groupName = form.cleaned_data['name']
                 group_members = form.cleaned_data['members']
-                form.save()
+                newGroup = Group(name=groupName, groupOwner=User.objects.get(phone=request.session['currentUser']))
+                newGroup.save()
+                newGroup.members.set(group_members)
+                newGroup.save()
+
                 return redirect('/shopperHelper/landing/?createGroupSuccessFlag=True')
             else:
                 return HttpResponseRedirect('/shopperHelper/create_group')
@@ -408,9 +412,9 @@ def selectItems(request):
             masterArray.sort()
             print (masterArray)
             '''
-            return redirect("/shopperHelper/summary/")
+            # return redirect("/shopperHelper/summary/")
 
-            #return HttpResponse("Hello")
+            return HttpResponse("Hello")
         else:
             item_list = request.session['list'] #takes masterList data from addReceiptView
             phoneNumberOfGroupMembersList = request.session['phoneNumberOfGroupMembersList']
