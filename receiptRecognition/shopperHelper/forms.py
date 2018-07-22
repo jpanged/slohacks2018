@@ -5,10 +5,10 @@ from .models import User, Item, Group, Receipt
 
 
 ALL_MEMBERS = []
-for i in range(len(list(User.objects.all()))):
-    userC = User.objects.values('phone')[i]['phone']
-    ALL_MEMBERS.append(('{}'.format(userC), '{}'.format(userC)))
-print(ALL_MEMBERS)
+# for i in range(len(list(User.objects.all()))):
+#     userC = User.objects.values('phone')[i]['phone']
+#     ALL_MEMBERS.append(('{}'.format(userC), '{}'.format(userC)))
+# print(ALL_MEMBERS)
 
 ALL_GROUPS = []
 
