@@ -10,10 +10,10 @@
   {% endblock %}
 </head>
 
-
+<body>
 {% block body %}
 
-<body onload="pageLoadScripts()">
+<!-- <body onload="pageLoadScripts()"> -->
 
 
   <div class="container ">
@@ -24,14 +24,19 @@
     <!-- <div class="alert alert-success" id="success-checkout" role="alert">
         This is a success alert—check it out!
       </div> -->
-    <form class="partSelect">
+    <form method="post">
       {% csrf_token %}
-      <div class="form-row">
-        <div class="form-group col-md-7">
+      {{ groupForm.as_p }}
+      <button type="submit" class="btn btn-outline-success btn-large btn-block" role = "button">Create Group</button>
+    </form>
+</div>
+      <!-- <div class="form-row"> -->
+
+        <!-- <div class="form-group col-md-7">
           <label for="username">Group Name</label> {{ groupForm.group_name }}
         </div>
         <div class="form-group col-md-5">
-          <label for="username">Add Member</label> {{ groupForm.group_members }}
+          <label for="username">Select Member</label> {{ groupForm.group_members }}
         </div>
       </div>
 
@@ -46,11 +51,10 @@
           <button id="submitButton" class="btn btn-success btn-large btn-block" onclick="sendPostData()" type="submit">Create Group</button>
         </div>
       </div>
-
       <!-- <div class="form-row">
           <label for="">&nbsp</label>
-          <button id="addItemButton submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="addPartToOrder()" type="submit">Add</button>
-      </div> -->
+           <button id="addItemButton submitButton" class="btn btn-success btn-block btn-large btn-block" onclick="addPartToOrder()" type="submit">Add</button> -->
+      <!-- </div>
     </form>
     <table class="table table-hover">
       <thead>
@@ -65,9 +69,9 @@
     <br>
 
     <br>
-  </div>
+  </div> -->
 
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     "use strict";
     // var outerObj = {};
     var outerObj = [];
@@ -136,12 +140,9 @@
     var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
     var deleteEntryButton = document.getElementById("deleteEntryButton").addEventListener("click", deleteEntry);
     document.addEventListener("submit", sendPostData);
-  </script>
+  </script> -->
+
   {% endblock %}
 </body>
-
-
-
-
 
 </html>

@@ -1,0 +1,15 @@
+Debug Current Program
+create identification w/ phone # (unique) rather than first and last name (Fixed)
+2D array for Alex (Fixed, need to create a separate python function for alex's stuff)
+redirect to summary page (Fixed, no need to post the data)
+Implement Group Creation (Fixed, works without javascript, needs to refresh when adding a receipt)
+--create group_cleaned_data (Fixed, needs to match whats in forms.py)
+Parsing subsequent images (Fixed, but asks user twice to select img)
+--image upload success (Fixed, shows javascript success file and redirects to selectItems page)
+implementing check boxes (Fixed, check boxes are assigned to users)
+--Put a check box on every item in Javascript (Fixed)
+adjust regex to member # instead of costco phone #
+implement logout (Fixed, logout needs to be invisible on login page and also right align)
+	del request.session(current_user)
+Add create new user functionality (Fixed, redirects to login page after registering)
+Adapt phone number input to handle only integers, not text

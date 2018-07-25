@@ -21,8 +21,8 @@
       <!--Registration form-->
       <form method="post">
         {% csrf_token %}
-        {{ registrationForm.as_p }}
-        <button type="submit" class="btn btn-outline-secondary" role="button">Submit</a>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-outline-success" role="button">Submit</a>
       </form>
     </div>
     {% endblock %}

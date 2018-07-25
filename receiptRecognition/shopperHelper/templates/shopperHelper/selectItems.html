@@ -5,75 +5,106 @@
 <html>
   <head>
     {% block head %}
-    <title>RETURN EQUIPMENT</title>
+    <title>SELECT ITEMS</title>
     {% endblock %}
     <!--Needed for importing static files
     {% load static %}
      <link rel="stylesheet" href="{% static 'app_Transaction/style.css' %}" type="text/css">
     -->
   </head>
-  <body>
     {% block body %}
-    <div class="container">
-      <div class="jumbotron">
-        <h1>Select Items to Split</h1>
-        <p class="lead">Hello {{ userFirstName }}, please select the items you want to split.</p>
-      </div>
-      <!-- <a href="{% url 'another_Action' %}" class="btn btn-outline-success btn-lg btn-block" role="button">Return Selected Equipment</a> -->
-      <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Return Selected Equipment</button>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Assign</th>
-            <th scope="col">Item Number</th>
-            <th scope="col">Item Name</th>
-            <th scope="col">Item Price</th>
+    {% csrf_token %}
+    <body onload="pageLoadScripts()">
+        <div class="container">
+            <!-- <form method="post"> -->
 
-          </tr>
-        </thead>
-        <form>
-          {% csrf_token %}
-        <tbody class="result" id="result">
-          {% for number,name,price in items_on_receipt %}
-          <tr>
-          <th scope="row">{{ number }}</th>
-          <td scope="row">{{ name }}</td>
-          <td scope="row">{{ price }}</td>
-          <td scope="row"><input type="number" class="form-control mb-1 mr-sm-1" id="quantity_to_remove_{{ part }}" max="{{ quantity }}" min=0 value="0" placeholder="MAX: {{ quantity }}" onchange="var _part = '{{ part }}';var _quantity = this.value; var _id = '{{ ID }}';addPartToOrder(_part, _quantity,_id)"></td>
-        </tr>
+
+            {%if request.GET.imageUploadSuccessFlag == "True" %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Image Upload Successful</h4>
+                <p>You're image has been successfully uploaded</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+              </div>
+              {% endif %}
+          <div class="jumbotron">
+            <h1>Select Items to Split</h1>
+            <p class="lead">Hello, {{ userFirstName }}, please select the items you want to split.</p>
+          </div>
+
+          <button id="submitButton" class="btn btn-outline-primary btn-lg btn-block" onclick="uncheckAll()" type="reset">Clear All Selections</button>
+          <br>
+          {% for phone in phoneNumberOfGroupMembersList %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <h3> {{ phone }} </h3>
+                <th scope="col">Split?</th>
+                <th scope="col">Item Number</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Item Price</th>
+              </tr>
+            </thead>
+            <form>
+
+            <tbody class="result" id="result">
+              {% for itemNumber, itemName, itemPrice in item_list %}
+                  <tr>
+                  <td scope="row"><label><input type="checkbox" name="{{ phone }}" value="{{ number }}_checkbox" onchange="var _item = '{{ itemNumber }}';var _assigned = this.checked; var _userAssigned = '{{ phone }}';addItemToOrder(_item, _assigned, _userAssigned)"></label></th>
+                  <th scope="row">{{ itemNumber }}</th>
+                  <td scope="row">{{ itemName }}</td>
+                  <td scope="row">{{ itemPrice }}</td>
+                  </tr>
+
+              {% endfor %}
           {% endfor %}
-        </tbody>
+            </tbody>
+          <!-- </form> -->
+          </table>
+          <p><a href="{% url 'summary' %}" class="btn btn-outline-success btn-lg btn-block">Submit</a></p>
+
+          <!-- <button id="submitButton" class="btn btn-outline-success btn-lg btn-block" onclick="sendPostData()" type="submit">Submit</button> -->
+          <!-- s<button id="submitButton" class="btn btn-outline-success btn-lg btn-block" type="submit">Submit</button> -->
       </form>
-      </table>
-    </div>
-    <script type="text/javascript">
-    "use strict";
-    var outerObj = {};
-    function addPartToOrder(_partName,_partQty,_partID)
-    {
-      var obj = {
-        partName: _partName,
-        partQty: _partQty,
-        partID: _partID
-      };
-      console.log(obj);
-      console.log(outerObj)
-      outerObj[_partName] = obj;
-    };
+        </div>
 
 
 
-    function sendPostData() {
-      // event.preventDefault();
-      var partData = JSON.stringify(outerObj);
-      console.log(partData);
-      $.post("", {
-        csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-        partData
-      });
-    };
-    var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
-    </script>
-    {% endblock %}
+        <script type="text/javascript">
+        "use strict";
+
+        function uncheckAll(){
+            $('input[type="checkbox"]:checked').prop('checked',false);
+        }
+
+        var outerObj = {};
+        function addItemToOrder(_item,_assigned,_userAssigned)
+        {
+          var obj = {
+            assigned: _assigned,
+            userAssigned: _userAssigned,
+            item: _item,
+          };
+          console.log(obj);
+          console.log(outerObj);
+          // outerObj[_userAssigned] = obj;
+          var assigner = _userAssigned+_item;
+          outerObj[assigner] = obj;
+        };
+
+
+        function sendPostData() {
+          // event.preventDefault();
+          var itemData = JSON.stringify(outerObj);
+          console.log(itemData);
+          $.post("", {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            itemData
+          });
+        };
+        var sendPostDataEvent = document.getElementById("submitButton").addEventListener("click", sendPostData);
+        </script>
+        {% endblock %}
   </body>
 </html>
