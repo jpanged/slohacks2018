@@ -9,60 +9,34 @@ import {
   View
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import Assign from './Screens/Assign';
+import Camera from './Screens/Camera';
+import People from './Screens/People';
+import Results from './Screens/Results';
+import {createStackNavigator} from 'react-navigation';// this is a lib for multiple screens
 
-export default class BadInstagramCloneApp extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style = {styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            permissionDialogTitle={'Permission to use camera'}
-            permissionDialogMessage={'We need your permission to use your camera phone'}
-        />
-        <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
-            style = {styles.capture}
-        />
-      </View>
-    );
-  }
+//Basically just the router
+// makes all its children injecting stuff-> under navigation
+const SimpleStack = createStackNavigator(
+  {
+    //lets the router know that these screens exist (in a stack)
+    Camera: {
+      screen: Camera,
+    },
+    Assign: {
+      screen: Assign,//the val is matching ur imports
+    },
+    People: {
 
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options)
-      console.log(data.uri);
+      screen: People,
+    },
+    Results:{
+      screen: Results,
     }
-  };
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'black',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
   },
-  preview: {
-    position: 'absolute',
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  capture: {
-    backgroundColor: 'transparent',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderColor: '#A8A8A8',
-    borderWidth: 7,
-    margin: 40
+  {
+    initialRouteName: 'Camera',
   }
-});
+);
+
+export default SimpleStack; //:)
