@@ -17,14 +17,7 @@ export default class Assign extends Component {
   render() {//spec
     return (
       <View>
-      { /*
-      <Header
-      placement="left"
-      leftComponent={{ icon: 'menu', color: '#FFF' }}
-      centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'home', color: '#fff' }}
-      />
-      */}
+      
       </View>
 
     );

@@ -95,7 +95,7 @@ export default class Camera extends Component {
       CameraRoll.saveToCameraRoll(data.uri);
       //send whole image to sever.
       // this.uploadPhoto(data.uri);
-      this.props.navigation.navigate('Assign');//props and static
+      this.props.navigation.navigate('People');//props and static
         }
   };
 }
